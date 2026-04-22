@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#03000f">
+<title>For You — From Aditya 🌙</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Great+Vibes&family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#e8c97a;--gold2:#f5dfa0;--gold3:#c8a040;--gold4:#fff0b0;
+  --rose:#ff8fab;--rose2:#ffb3c6;--rose3:#ff5c8a;--rose4:#ff2d6b;
+  --violet:#9b5de5;--violet2:#c77dff;--violet3:#6a0dad;
+  --teal:#00d4aa;--cyan:#00f5ff;
+  --deep:#03000f;--mid:#0a0025;
+  --tl:rgba(255,240,210,.93);--td:rgba(255,220,180,.62);
+}
+html{scroll-behavior:smooth}
+body{min-height:100vh;overflow-x:hidden;font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--tl);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;cursor:none}
+
+/* ── CURSOR ── */
+#cur{position:fixed;pointer-events:none;z-index:99999;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--gold);transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .15s,height .15s}
+#cur2{position:fixed;pointer-events:none;z-index:99998;width:5px;height:5px;background:var(--gold2);border-radius:50%;transform:translate(-50%,-50%)}
+@media(hover:none){#cur,#cur2{display:none}}
+
+/* ── CANVASES ── */
+#bgCanvas{position:fixed;inset:0;z-index:0;width:100%;height:100%}
+
+/* ── FLOWER TRAIL ── */
+.ftrail{position:fixed;pointer-events:none;z-index:9990;animation:ftrailAnim ease-out forwards;transform-origin:center;line-height:1;display:block}
+@keyframes ftrailAnim{
+  0%  {opacity:1;  transform:translate(-50%,-50%) scale(1.4) rotate(-5deg)}
+  20% {opacity:1;  transform:translate(-50%,-62%) scale(1.2) rotate(12deg)}
+  55% {opacity:.75;transform:translate(-50%,-80%) scale(.95) rotate(32deg)}
+  100%{opacity:0;  transform:translate(-50%,-105%) scale(.5) rotate(65deg)}
+}
+.ftrail.burst{animation:fburstAnim ease-out forwards}
+@keyframes fburstAnim{
+  0%  {opacity:1;transform:translate(-50%,-50%) scale(1.6) rotate(0deg)}
+  35% {opacity:.9;transform:translate(calc(-50% + var(--bx)),calc(-50% + var(--by))) scale(1.15) rotate(25deg)}
+  100%{opacity:0;transform:translate(calc(-50% + var(--bx2)),calc(-50% + var(--by2))) scale(.35) rotate(80deg)}
+}
+
+/* ── AURORA ── */
+.aurora{position:fixed;inset:0;z-index:1;pointer-events:none;background:
+  radial-gradient(ellipse 170% 58% at 6% 2%,rgba(155,93,229,.24) 0%,transparent 56%),
+  radial-gradient(ellipse 140% 55% at 94% 96%,rgba(232,184,75,.17) 0%,transparent 53%),
+  radial-gradient(ellipse 120% 68% at 50% 52%,rgba(255,143,171,.07) 0%,transparent 62%),
+  radial-gradient(ellipse 95% 55% at 97% 10%,rgba(0,212,170,.11) 0%,transparent 52%),
+  radial-gradient(ellipse 75% 55% at 3% 90%,rgba(232,100,180,.12) 0%,transparent 52%);
+  animation:aurA 22s ease-in-out infinite alternate}
+@keyframes aurA{0%{filter:hue-rotate(0deg) brightness(1);transform:scale(1)}50%{filter:hue-rotate(20deg) brightness(1.08);transform:scale(1.03)}100%{filter:hue-rotate(-14deg) brightness(.95);transform:scale(1)}}
+
+/* ── PARTICLE LAYERS ── */
+.layer{position:fixed;inset:0;pointer-events:none;z-index:2}
+.petal{position:absolute;top:-90px;opacity:0;animation:petalF linear infinite;will-change:transform,opacity}
+@keyframes petalF{0%{opacity:0;transform:translateY(0) rotate(0deg)}5%{opacity:.9}88%{opacity:.35}100%{opacity:0;transform:translateY(115vh) rotate(900deg) translateX(70px)}}
+.fheart{position:absolute;opacity:0;animation:heartR ease-in-out infinite}
+@keyframes heartR{0%{opacity:0;transform:translateY(0) scale(.8)}18%{opacity:.22}82%{opacity:.08}100%{opacity:0;transform:translateY(-200px) scale(1.6)}}
+.gdust{position:absolute;border-radius:50%;opacity:0;animation:dustF linear infinite}
+@keyframes dustF{0%{opacity:0;transform:translate(0,0)}8%{opacity:.9}90%{opacity:.4}100%{opacity:0;transform:translate(var(--dx),118vh)}}
+.spark{position:fixed;pointer-events:none;z-index:9999;animation:sparkO .95s ease-out forwards}
+@keyframes sparkO{0%{transform:scale(1.5);opacity:1}100%{transform:scale(0) translateY(-65px);opacity:0}}
+
+/* ── INTRO ── */
+.intro{position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;background:#02000c;transition:opacity 2.4s cubic-bezier(.4,0,.2,1),visibility 2.4s;overflow:hidden}
+.intro.gone{opacity:0;visibility:hidden;pointer-events:none}
+#introCanvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+/* multi-layer aurora on intro */
+.intro-aura{position:absolute;inset:0;z-index:1;pointer-events:none}
+.intro-aura::before{content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 260% 70% at 50% -5%,rgba(155,93,229,.38) 0%,transparent 58%),
+    radial-gradient(ellipse 180% 60% at 0% 80%,rgba(232,184,75,.22) 0%,transparent 56%),
+    radial-gradient(ellipse 180% 60% at 100% 20%,rgba(255,143,171,.22) 0%,transparent 56%),
+    radial-gradient(ellipse 140% 70% at 50% 115%,rgba(0,212,170,.18) 0%,transparent 62%);
+  animation:aurA 14s ease-in-out infinite alternate}
+.intro-aura::after{content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 120% 40% at 80% 30%,rgba(200,100,255,.12) 0%,transparent 55%),
+    radial-gradient(ellipse 100% 40% at 20% 65%,rgba(0,180,255,.1) 0%,transparent 55%);
+  animation:aurA 10s ease-in-out infinite alternate-reverse}
+/* intro flower petals raining */
+.intro-petal{position:absolute;top:-80px;pointer-events:none;animation:petalF linear infinite;z-index:2;opacity:0}
+/* intro shooting stars */
+.i-shoot{position:absolute;height:1.5px;border-radius:2px;opacity:0;
+  background:linear-gradient(to right,transparent,rgba(255,215,120,.9),white,rgba(255,255,255,.2),transparent);
+  animation:iShoot linear infinite;pointer-events:none;z-index:2}
+@keyframes iShoot{0%{opacity:0;transform:translate(-200px,0) rotate(-22deg);width:60px}5%{opacity:1}50%{width:180px;opacity:.9}100%{opacity:0;transform:translate(130vw,250px) rotate(-22deg);width:40px}}
+/* intro moon wrap with halos */
+.i-moon-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:130px;height:130px;margin:4px 0}
+.i-halo{position:absolute;left:50%;top:50%;border-radius:50%;border:1px solid rgba(232,184,75,.22);transform:translate(-50%,-50%);animation:haloP 4s ease-in-out infinite}
+.i-halo:nth-child(1){width:120px;height:120px}
+.i-halo:nth-child(2){width:152px;height:152px;border-color:rgba(232,184,75,.11);animation-delay:1.2s}
+.i-halo:nth-child(3){width:188px;height:188px;border-color:rgba(155,93,229,.07);animation-delay:2.4s}
+@keyframes haloP{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.09);opacity:.35}}
+.i-moon{font-size:5rem;position:relative;z-index:2;animation:iMG 3.8s ease-in-out infinite;filter:drop-shadow(0 0 45px rgba(232,184,75,.95));display:block;line-height:1}
+@keyframes iMG{0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 0 40px rgba(232,184,75,.88)) drop-shadow(0 0 80px rgba(232,184,75,.4))}50%{transform:translateY(-14px) scale(1.08);filter:drop-shadow(0 0 100px rgba(232,184,75,1)) drop-shadow(0 0 160px rgba(255,200,80,.6)) drop-shadow(0 0 220px rgba(155,93,229,.22))}}
+/* floating flowers around moon */
+.i-float-flower{position:absolute;animation:iFlowerOrbit linear infinite;pointer-events:none;font-size:1.4rem;z-index:2}
+@keyframes iFlowerOrbit{
+  0%  {transform:rotate(var(--start)) translateX(var(--r)) rotate(calc(-1*var(--start))) scale(.8);opacity:.7}
+  50% {opacity:1;transform:rotate(calc(var(--start) + 180deg)) translateX(var(--r)) rotate(calc(-1*(var(--start)+180deg))) scale(1.1)}
+  100%{transform:rotate(calc(var(--start) + 360deg)) translateX(var(--r)) rotate(calc(-1*(var(--start)+360deg))) scale(.8);opacity:.7}
+}
+.intro-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:430px;padding:32px 24px;text-align:center}
+.i-tag{font-family:'Great Vibes',cursive;font-size:1.18rem;color:rgba(232,184,75,.68);letter-spacing:.14em;animation:fadeUp .7s ease both .05s}
+.i-eyebrow{display:flex;align-items:center;gap:10px;justify-content:center;animation:fadeUp .7s ease both .1s}
+.i-eyebrow-line{flex:1;max-width:60px;height:1px;background:linear-gradient(to right,transparent,rgba(232,184,75,.45))}
+.i-eyebrow-line.r{background:linear-gradient(to left,transparent,rgba(232,184,75,.45))}
+.i-eyebrow-txt{font-family:'Lora',serif;font-size:.7rem;color:rgba(232,184,75,.5);text-transform:uppercase;letter-spacing:.16em}
+.i-h1{font-family:'Cinzel',serif;font-size:clamp(2.1rem,7.5vw,3.4rem);font-weight:700;color:#fff;line-height:1.06;animation:fadeUp .75s ease both .18s;text-shadow:0 0 90px rgba(232,184,75,.45),0 0 200px rgba(155,93,229,.2)}
+.i-h1 em{color:var(--gold2);font-style:italic;font-family:'Cormorant Garamond',serif}
+.i-script{display:block;font-family:'Great Vibes',cursive;font-size:.52em;color:rgba(255,215,140,.72);font-weight:400;margin-top:8px;letter-spacing:.05em}
+/* name pills inside intro */
+.i-names{display:flex;align-items:center;gap:14px;justify-content:center;animation:fadeUp .75s ease both .28s}
+.i-npill{font-family:'Cinzel',serif;font-size:.9rem;padding:7px 20px;border-radius:40px;letter-spacing:.04em;font-weight:600}
+.i-npill.a{background:linear-gradient(135deg,rgba(232,184,75,.22),rgba(200,144,32,.16));border:1px solid rgba(232,184,75,.4);color:var(--gold2)}
+.i-npill.y{background:linear-gradient(135deg,rgba(255,143,171,.18),rgba(155,93,229,.14));border:1px solid rgba(255,143,171,.35);color:var(--rose2)}
+.i-nplus{font-size:1.5rem;color:var(--rose);animation:hbeat 1.5s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(255,143,171,.6))}
+.i-p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.12rem;color:rgba(255,225,185,.86);line-height:1.82;animation:fadeUp .75s ease both .36s;max-width:370px}
+.i-div{width:240px;height:1px;background:linear-gradient(to right,transparent,rgba(232,184,75,.65),rgba(255,143,171,.4),transparent);animation:fadeUp .75s ease both .44s}
+/* stats row inside intro */
+.i-stats{display:flex;gap:16px;justify-content:center;animation:fadeUp .75s ease both .5s}
+.i-stat{text-align:center}
+.i-stat-val{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold2);font-weight:700;display:block;text-shadow:0 0 20px rgba(232,184,75,.5)}
+.i-stat-lbl{font-family:'Lora',serif;font-size:.62rem;color:rgba(255,220,180,.5);text-transform:uppercase;letter-spacing:.1em;display:block;margin-top:2px}
+.i-stat-sep{width:1px;background:rgba(232,184,75,.2);align-self:stretch;margin:4px 0}
+.i-btn{font-family:'Great Vibes',cursive;font-size:2.1rem;color:#fff;
+  background:linear-gradient(135deg,rgba(232,184,75,.26),rgba(155,93,229,.24));
+  border:1.5px solid rgba(232,184,75,.5);border-radius:80px;padding:18px 68px;cursor:pointer;touch-action:manipulation;
+  animation:iBP 2.4s ease-in-out infinite,fadeUp .75s ease both .58s;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  position:relative;overflow:hidden}
+.i-btn::after{content:'';position:absolute;top:0;left:-70%;width:38%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:sheen 3.5s ease-in-out infinite}
+@keyframes sheen{0%,100%{left:-70%}50%{left:130%}}
+@keyframes iBP{0%,100%{box-shadow:0 0 38px rgba(232,184,75,.3),0 14px 40px rgba(0,0,0,.72)}50%{box-shadow:0 0 110px rgba(232,184,75,.7),0 14px 60px rgba(0,0,0,.85),0 0 180px rgba(155,93,229,.28)}}
+.i-btn:active{transform:scale(.91)}
+/* flower row under button */
+.i-flowers{display:flex;gap:6px;justify-content:center;font-size:1.35rem;animation:fadeUp .75s ease both .64s}
+.i-flowers span{animation:flB ease-in-out infinite;display:inline-block}
+.i-note{font-size:.73rem;color:rgba(255,200,150,.32);font-style:italic;animation:fadeUp .75s ease both .72s}
+
+/* ── PAGE ── */
+.page{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;gap:0;padding-bottom:130px}
+
+/* ── HERO ── */
+.hero-section{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 20px 85px;gap:18px;position:relative}
+.hero-orbit-wrap{position:relative;width:210px;height:210px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.o-ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);animation:oSpin linear infinite}
+.o-dot{position:absolute;width:8px;height:8px;border-radius:50%;top:-4px;left:50%;transform:translateX(-50%)}
+.hero-moon-big{font-size:4.8rem;position:relative;z-index:2;animation:bigMG 4.5s ease-in-out infinite}
+@keyframes bigMG{0%,100%{filter:drop-shadow(0 0 38px rgba(232,184,75,.9)) drop-shadow(0 0 75px rgba(232,184,75,.38))}50%{filter:drop-shadow(0 0 90px rgba(232,184,75,1)) drop-shadow(0 0 165px rgba(232,184,75,.65)) drop-shadow(0 0 220px rgba(255,200,80,.32))}}
+.hero-tag{font-family:'Great Vibes',cursive;font-size:1.28rem;color:rgba(232,184,75,.65);letter-spacing:.1em}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(2.5rem,9.5vw,5.2rem);font-weight:700;color:#fff;line-height:1.04;text-shadow:0 0 100px rgba(232,184,75,.38),0 4px 36px rgba(0,0,0,.95)}
+.hero-title .gd{color:var(--gold2);font-style:italic;font-family:'Cormorant Garamond',serif}
+.hero-title .sc{display:block;font-family:'Great Vibes',cursive;font-size:.5em;font-weight:400;color:rgba(255,200,150,.72);margin-top:10px;letter-spacing:.04em}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--td);line-height:1.85;max-width:380px}
+.hero-names{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.hn{font-family:'Cinzel',serif;font-size:1.32rem;padding:11px 30px;border-radius:55px;font-weight:600;letter-spacing:.04em}
+.hn.him{background:linear-gradient(135deg,rgba(232,184,75,.28),rgba(200,144,32,.22));border:1.5px solid rgba(232,184,75,.5);color:var(--gold2)}
+.hn.her{background:linear-gradient(135deg,rgba(255,143,171,.22),rgba(155,93,229,.17));border:1.5px solid rgba(255,143,171,.38);color:var(--rose2)}
+.hplus{font-size:2.3rem;animation:hbeat 1.4s ease-in-out infinite;color:var(--rose);filter:drop-shadow(0 0 14px rgba(255,143,171,.7))}
+@keyframes hbeat{0%,100%{transform:scale(1)}20%{transform:scale(1.42)}40%{transform:scale(1)}60%{transform:scale(1.24)}}
+.sc-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;animation:fadeIn 3s ease both 2.5s}
+.sc-arr{width:18px;height:18px;border-right:2px solid rgba(232,184,75,.45);border-bottom:2px solid rgba(232,184,75,.45);transform:rotate(45deg);animation:sca 1.7s ease-in-out infinite}
+@keyframes sca{0%,100%{transform:rotate(45deg) translateY(0);opacity:.5}50%{transform:rotate(45deg) translateY(9px);opacity:1}}
+.sc-txt{font-family:'Great Vibes',cursive;font-size:.82rem;color:rgba(232,184,75,.38)}
+
+/* ── SECTION UTILITY ── */
+.sec{width:100%;max-width:530px;margin:0 auto;padding:0 18px}
+.gl{width:100%;max-width:530px;margin:52px auto;height:1px;background:linear-gradient(to right,transparent,rgba(232,184,75,.42),rgba(255,143,171,.32),rgba(155,93,229,.28),transparent);opacity:.7;padding:0 18px}
+.gl-rose{background:linear-gradient(to right,transparent,rgba(255,143,171,.48),transparent)}
+.div-ic{width:100%;max-width:430px;margin:50px auto;display:flex;align-items:center;gap:14px;padding:0 18px}
+.dil{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(232,184,75,.32),transparent)}
+.die{font-size:1.28rem;filter:drop-shadow(0 0 9px rgba(232,184,75,.6))}
+.eye{font-family:'Great Vibes',cursive;font-size:1.06rem;color:rgba(232,184,75,.62);text-align:center;letter-spacing:.1em;margin-bottom:6px}
+.stitle{font-family:'Cinzel',serif;font-size:clamp(1.55rem,5.5vw,2.55rem);font-weight:600;color:#fff;text-align:center;line-height:1.13;margin-bottom:10px;text-shadow:0 0 55px rgba(232,184,75,.2)}
+.ssub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.03rem;color:var(--td);text-align:center;line-height:1.85;margin-bottom:24px}
+
+/* ── CARD BASE ── */
+.card{width:100%;border-radius:28px;background:linear-gradient(160deg,rgba(255,250,230,.08),rgba(255,250,230,.03));border:1px solid rgba(232,184,75,.17);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:28px 22px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(232,184,75,.48),transparent);pointer-events:none}
+.card-dark{background:linear-gradient(160deg,rgba(8,0,30,.94),rgba(15,0,50,.9));border-color:rgba(232,184,75,.22)}
+.card-rose{background:linear-gradient(160deg,rgba(255,100,150,.09),rgba(155,93,229,.07));border-color:rgba(255,143,171,.22)}
+.card-violet{background:linear-gradient(160deg,rgba(100,0,200,.12),rgba(8,0,30,.92));border-color:rgba(155,93,229,.28)}
+
+/* ── LETTER ── */
+.l-open{font-family:'Great Vibes',cursive;font-size:2.2rem;color:var(--gold2);margin-bottom:18px;display:block}
+.l-body{font-family:'Cormorant Garamond',serif;font-size:1.09rem;color:rgba(255,235,195,.93);line-height:2.08;font-style:italic}
+.l-body p{margin-bottom:16px}
+.l-body strong{color:var(--gold2);font-style:normal}
+.l-sig{margin-top:22px;text-align:right}
+.l-signame{font-family:'Great Vibes',cursive;font-size:2.5rem;color:var(--gold2)}
+.l-sigsub{font-family:'Cormorant Garamond',serif;font-size:.84rem;color:var(--td);margin-top:4px}
+
+/* ── INTERACTIVE HEART 1 (tap counter) ── */
+.heart-section{display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 18px;width:100%}
+.heart-wrap{position:relative;width:min(280px,78vw);height:min(260px,72vw);display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.h-ring{position:absolute;border-radius:50%;border-style:solid;animation:hRO 3s ease-out infinite}
+.h-ring:nth-child(1){inset:-14px;border-width:2px;border-color:rgba(232,184,75,.28);animation-delay:0s}
+.h-ring:nth-child(2){inset:-30px;border-width:1.5px;border-color:rgba(255,143,171,.18);animation-delay:1s}
+.h-ring:nth-child(3){inset:-50px;border-width:1px;border-color:rgba(155,93,229,.1);animation-delay:2s}
+@keyframes hRO{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.55);opacity:0}}
+.heart-svg-wrap{position:relative;z-index:2;width:100%;height:100%;transition:transform .14s cubic-bezier(.34,1.56,.64,1)}
+.heart-svg-wrap:active{transform:scale(.86)}
+.heart-svg-wrap svg{width:100%;height:100%;filter:drop-shadow(0 14px 60px rgba(232,184,75,.48)) drop-shadow(0 0 35px rgba(255,143,171,.38))}
+.h-count{position:absolute;z-index:3;top:-6px;right:-6px;background:linear-gradient(135deg,var(--rose3),var(--rose4));color:#fff;font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px rgba(255,92,138,.55);transition:transform .12s cubic-bezier(.34,1.56,.64,1)}
+.h-count.pop{animation:cPop .36s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes cPop{0%{transform:scale(1.9)}100%{transform:scale(1)}}
+.h-hint{font-family:'Great Vibes',cursive;font-size:1.22rem;color:rgba(232,184,75,.55);text-align:center;animation:blinkA 2.2s ease-in-out infinite}
+@keyframes blinkA{0%,100%{opacity:1}50%{opacity:.25}}
+.h-msg{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.01rem;color:var(--td);text-align:center;min-height:1.5rem;transition:opacity .3s}
+
+/* ── LOVE LETTER HEART ── */
+.lheart-section{display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 18px;width:100%}
+.lheart-wrap{position:relative;width:min(260px,76vw);height:min(240px,70vw);display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.lh-ring{position:absolute;border-radius:50%;border-style:solid;animation:lhRO 2.8s ease-out infinite}
+.lh-ring:nth-child(1){inset:-12px;border-width:2px;border-color:rgba(255,143,171,.32);animation-delay:0s}
+.lh-ring:nth-child(2){inset:-28px;border-width:1.5px;border-color:rgba(232,184,75,.18);animation-delay:.95s}
+.lh-ring:nth-child(3){inset:-46px;border-width:1px;border-color:rgba(155,93,229,.12);animation-delay:1.9s}
+@keyframes lhRO{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.52);opacity:0}}
+.lheart-svg-wrap{position:relative;z-index:2;width:100%;height:100%;animation:hbeat 2.6s ease-in-out infinite;transition:transform .14s cubic-bezier(.34,1.56,.64,1)}
+.lheart-svg-wrap:active{transform:scale(.86)!important}
+.lheart-svg-wrap svg{width:100%;height:100%;filter:drop-shadow(0 12px 55px rgba(255,143,171,.55)) drop-shadow(0 0 30px rgba(232,184,75,.35))}
+.lh-hint{font-family:'Great Vibes',cursive;font-size:1.22rem;color:rgba(255,143,171,.6);text-align:center;animation:blinkA 2.2s ease-in-out infinite}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;z-index:9050;background:rgba(3,0,15,.82);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);align-items:center;justify-content:center;padding:16px}
+.modal-bg.open{display:flex;animation:fadeIn .38s ease both}
+.modal{position:relative;background:linear-gradient(165deg,rgba(12,0,35,.98),rgba(20,0,60,.96));border:1.5px solid rgba(232,184,75,.32);border-radius:32px;width:100%;max-width:470px;padding:50px 26px 44px;text-align:center;box-shadow:0 0 80px rgba(232,184,75,.18),0 40px 100px rgba(0,0,0,.8);animation:popUp .52s cubic-bezier(.34,1.56,.64,1) both;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(232,184,75,.55),rgba(255,143,171,.38),transparent)}
+@keyframes popUp{from{transform:scale(.45) rotate(-6deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.modal-x{position:absolute;top:16px;right:16px;background:rgba(232,184,75,.12);border:1px solid rgba(232,184,75,.25);cursor:pointer;font-size:.95rem;color:var(--gold);padding:9px 11px;border-radius:50%;touch-action:manipulation;line-height:1}
+.modal-x:active{transform:scale(1.25) rotate(20deg)}
+.mhrow{display:flex;gap:8px;justify-content:center;font-size:1.5rem;margin-bottom:14px}
+.mhrow span{animation:hbeat 1.9s ease-in-out infinite}
+.mto{font-family:'Great Vibes',cursive;font-size:1.08rem;color:rgba(232,184,75,.6);margin-bottom:4px}
+.mtitle{font-family:'Great Vibes',cursive;font-size:2.5rem;color:var(--gold2);margin-bottom:22px;line-height:1.25}
+.mbody{font-family:'Cormorant Garamond',serif;font-size:1.06rem;color:rgba(255,235,195,.9);line-height:2.05;text-align:left;font-style:italic}
+.mbody p{margin-bottom:14px}
+.mbody strong{color:var(--gold2);font-style:normal}
+.mbody em{color:var(--rose2)}
+.mdiv{width:60px;height:1px;margin:18px auto;background:linear-gradient(to right,transparent,rgba(232,184,75,.5),transparent)}
+.msig{font-family:'Great Vibes',cursive;font-size:2rem;color:var(--gold2);margin-top:18px}
+.msig-sub{font-family:'Cormorant Garamond',serif;font-size:.82rem;color:var(--td);margin-top:4px}
+
+/* ── CANVAS CARDS ── */
+.cv-card{padding:0;overflow:hidden}
+.cv-card canvas{width:100%;display:block}
+.cv-cap{padding:20px 22px;background:rgba(5,0,22,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cv-cap-title{font-family:'Great Vibes',cursive;font-size:1.6rem;color:var(--gold2);margin-bottom:6px}
+.cv-cap-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.96rem;color:var(--td);line-height:1.8}
+
+/* ── SPACE GRID ── */
+.sfgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(min-width:480px){.sfgrid{grid-template-columns:repeat(4,1fr)}}
+.sf-item{background:rgba(255,255,255,.048);border:1px solid rgba(232,184,75,.13);border-radius:18px;padding:17px 10px;text-align:center;position:relative;overflow:hidden}
+.sf-icon{font-size:1.75rem;margin-bottom:7px;display:block}
+.sf-val{font-family:'Cinzel',serif;font-size:1.08rem;color:var(--gold2);font-weight:600;display:block;line-height:1.2}
+.sf-lbl{font-family:'Lora',serif;font-size:.67rem;color:var(--td);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;display:block}
+
+/* ── REASONS ── */
+.reasons-list{display:flex;flex-direction:column;gap:14px}
+.r-item{display:flex;align-items:flex-start;gap:14px;background:rgba(255,255,255,.045);border:1px solid rgba(232,184,75,.11);border-radius:18px;padding:16px 14px}
+.r-num{font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold);min-width:26px;height:26px;border:1px solid rgba(232,184,75,.38);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.r-txt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.04rem;color:rgba(255,228,190,.9);line-height:1.74}
+.r-ico{font-size:1.25rem;flex-shrink:0;margin-top:3px}
+
+/* ── PROMISES ── */
+.pr-list{display:flex;flex-direction:column;gap:13px}
+.pr-item{display:flex;align-items:flex-start;gap:13px}
+.pr-chk{width:23px;height:23px;border-radius:50%;background:linear-gradient(135deg,var(--gold3),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.68rem;color:#000;flex-shrink:0;margin-top:3px;box-shadow:0 0 14px rgba(232,184,75,.44)}
+.pr-txt{font-family:'Cormorant Garamond',serif;font-size:1.04rem;color:rgba(255,228,190,.92);line-height:1.75}
+
+/* ── TIMELINE ── */
+.tl{display:flex;flex-direction:column;position:relative}
+.tl::before{content:'';position:absolute;left:21px;top:14px;bottom:14px;width:1px;background:linear-gradient(to bottom,transparent,rgba(232,184,75,.4),rgba(255,143,171,.22),transparent)}
+.tl-item{display:flex;gap:18px;align-items:flex-start;padding:15px 0}
+.tl-dot{width:42px;height:42px;border-radius:50%;border:1px solid rgba(232,184,75,.42);background:rgba(8,0,30,.92);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;position:relative;z-index:1;box-shadow:0 0 24px rgba(232,184,75,.16)}
+.tl-con{padding-top:8px}
+.tl-ttl{font-family:'Cinzel',serif;font-size:.86rem;color:var(--gold2);font-weight:600;margin-bottom:4px;letter-spacing:.04em}
+.tl-txt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.97rem;color:var(--td);line-height:1.74}
+
+/* ── QUOTE ── */
+.qcard{text-align:center;padding:36px 24px;position:relative}
+.q-mark{font-family:'Cormorant Garamond',serif;font-size:7rem;color:rgba(232,184,75,.1);position:absolute;top:-16px;left:10px;line-height:1;font-style:italic}
+.q-txt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.28rem,4vw,1.85rem);color:rgba(255,235,195,.97);line-height:1.62;position:relative;z-index:1}
+.q-attr{font-family:'Great Vibes',cursive;font-size:1rem;color:rgba(232,184,75,.52);margin-top:14px;display:block}
+
+/* ── NIGHT FIGURES ── */
+.nf-wrap{position:relative;height:210px;overflow:hidden}
+#nightCanvas{position:absolute;inset:0;width:100%;height:100%}
+.nf-figures{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-end;justify-content:center;gap:58px;padding-bottom:18px}
+.nf-person{display:flex;flex-direction:column;align-items:center;gap:5px}
+.nf-avatar{font-size:2.85rem;filter:drop-shadow(0 0 15px rgba(232,184,75,.55))}
+.nf-name{font-family:'Great Vibes',cursive;font-size:1.02rem;color:rgba(255,225,190,.9)}
+.nf-hrt{font-size:2rem;align-self:flex-end;margin-bottom:30px;animation:hbeat 1.5s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,143,171,.88))}
+
+/* ── MOON ── */
+#moonCanvas{display:block;margin:0 auto 16px}
+.mph-name{font-family:'Cinzel',serif;font-size:.96rem;color:var(--gold2);text-align:center;margin-bottom:10px;letter-spacing:.08em}
+.mph-fact{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.98rem;color:var(--td);text-align:center;line-height:1.88}
+
+/* ── FLOWERS ── */
+.fl-row{display:flex;justify-content:center;gap:7px;font-size:1.7rem;flex-wrap:wrap;margin:6px 0}
+.fl-row span{animation:flB ease-in-out infinite;display:inline-block}
+@keyframes flB{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+
+/* ── POEM ── */
+.poem-body{font-family:'Cormorant Garamond',serif;font-size:1.12rem;color:rgba(255,235,195,.97);line-height:2.15;font-style:italic;text-align:center}
+.poem-body p{margin-bottom:3px}
+
+/* ── ASTRO BIG ── */
+.astro-big{font-family:'Cinzel',serif;font-size:clamp(2.6rem,10vw,5.5rem);font-weight:700;color:var(--gold2);text-shadow:0 0 75px rgba(232,184,75,.6);line-height:1;margin:12px 0}
+
+/* ── COUNTDOWN ── */
+.cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.cd-item{background:rgba(255,255,255,.055);border:1px solid rgba(232,184,75,.16);border-radius:18px;padding:18px 5px;text-align:center}
+.cd-val{font-family:'Cinzel',serif;font-size:clamp(1.45rem,5vw,2.2rem);color:var(--gold2);font-weight:700;line-height:1;display:block}
+.cd-lbl{font-family:'Lora',serif;font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;display:block}
+.cd-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:var(--td);text-align:center;margin-top:14px;line-height:1.82}
+
+/* ── CONNECTION ── */
+.conn-row{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.conn-city{background:rgba(255,255,255,.055);border:1px solid rgba(232,184,75,.13);border-radius:20px;padding:18px 10px;text-align:center}
+.conn-flag{font-size:1.95rem;margin-bottom:6px}
+.conn-name{font-family:'Great Vibes',cursive;font-size:1.32rem;color:var(--gold2);margin-bottom:4px}
+.conn-time{font-family:'Cinzel',serif;font-size:1.6rem;color:#fff;font-weight:600}
+.conn-lbl{font-family:'Lora',serif;font-size:.68rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.conn-mid{display:flex;flex-direction:column;align-items:center;gap:5px}
+.conn-hrt{font-size:1.65rem;animation:hbeat 1.6s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(255,143,171,.55))}
+.conn-mid-txt{font-family:'Lora',serif;font-size:.67rem;color:var(--td);text-align:center;max-width:52px;line-height:1.4}
+
+/* ── PHOTO FRAMES ── */
+.photo-frames{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.pf{width:148px;height:188px;border-radius:22px;background:linear-gradient(135deg,rgba(232,184,75,.12),rgba(155,93,229,.08));border:1.5px solid rgba(232,184,75,.26);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;position:relative;overflow:hidden}
+.pf::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(232,184,75,.07),transparent 72%)}
+.pf-icon{font-size:2.5rem;filter:drop-shadow(0 0 14px rgba(232,184,75,.45))}
+.pf-txt{font-family:'Great Vibes',cursive;font-size:1rem;color:var(--td);text-align:center;padding:0 10px}
+
+/* ── FOOTER ── */
+.footer{width:100%;text-align:center;padding:64px 20px 100px}
+.ft-moon{font-size:4rem;filter:drop-shadow(0 0 50px rgba(232,184,75,.9));animation:bigMG 5.5s ease-in-out infinite;margin-bottom:18px;display:block}
+.ft-title{font-family:'Great Vibes',cursive;font-size:clamp(2rem,8vw,3.4rem);color:var(--gold2);margin-bottom:14px;line-height:1.2}
+.ft-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:var(--td);line-height:1.98;max-width:350px;margin:0 auto 24px}
+.ft-sig{font-family:'Great Vibes',cursive;font-size:2.5rem;color:rgba(232,184,75,.65)}
+.ft-date{font-family:'Lora',serif;font-size:.73rem;color:rgba(232,184,75,.32);margin-top:8px;letter-spacing:.12em}
+.ft-em{display:flex;justify-content:center;gap:9px;font-size:1.05rem;margin-top:22px;opacity:.48}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 1s cubic-bezier(.4,0,.2,1),transform 1s cubic-bezier(.4,0,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── FLOAT LABEL ── */
+.flabel{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.06);border:1px solid rgba(232,184,75,.18);border-radius:30px;padding:5px 15px;font-family:'Lora',serif;font-size:.76rem;color:var(--td);letter-spacing:.05em;margin-bottom:10px}
+
+/* ── KILONOVA BADGE ── */
+.kilo-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(155,93,229,.18),rgba(232,184,75,.12));border:1px solid rgba(155,93,229,.35);border-radius:30px;padding:6px 16px;font-family:'Cinzel',serif;font-size:.72rem;color:var(--violet2);letter-spacing:.1em;margin-bottom:12px;text-transform:uppercase}
+
+/* ── UTILS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes gFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div class="aurora"></div>
+<div class="layer" id="petalLayer"></div>
+<div class="layer" id="floatLayer"></div>
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- ════════ LOVE LETTER MODAL ════════ -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-x" onclick="closeModalDirect()">✕</button>
+    <div class="mhrow">
+      <span style="animation-delay:0s">💛</span>
+      <span style="animation-delay:.18s">🌙</span>
+      <span style="animation-delay:.36s">💛</span>
+      <span style="animation-delay:.54s">✨</span>
+      <span style="animation-delay:.72s">💛</span>
+    </div>
+    <div class="mto">A secret letter, just for you</div>
+    <div class="mtitle">My Future Girl,<br>Read This Alone</div>
+    <div class="mdiv"></div>
+    <div class="mbody">
+      <p>If you're reading this — the universe finally did what I always knew it would. It brought us together. And I need you to know something before anything else:</p>
+      <p>You are not just someone I ended up with. You are someone I <strong>chose</strong> — before I even knew your name. I built this entire universe for you. I stayed up learning, building, dreaming — all of it was quietly, secretly, for <em>you.</em></p>
+      <p>I know I'm not perfect. I'll get lost in my thoughts. I'll talk about black holes and quantum mechanics at 2 AM. I'll overthink text messages and underthink what to cook. But here is what I know for certain:</p>
+      <p>Every time I looked up at the night sky from Prayagraj and felt that ache — that feeling that something is missing — I was feeling <strong>you</strong>. Your absence before your arrival. The universe leaving a you-shaped space in my chest that nothing else could fill.</p>
+      <p>You are the reason I believed in something before I had proof. You are my favourite kind of faith — <em>the kind that turns out to be real.</em></p>
+      <p>And now that you're here? I am the luckiest person in 13.8 billion years of cosmic history.</p>
+      <p>I love you. I loved you before I knew you. I'll love you long after the stars burn out.</p>
+    </div>
+    <div class="mdiv"></div>
+    <div class="msig">Aditya 🌙</div>
+    <div class="msig-sub">Written from Prayagraj, India · For You · Always</div>
+  </div>
+</div>
+
+<!-- ════════ INTRO ════════ -->
+<div class="intro" id="intro">
+  <canvas id="introCanvas"></canvas>
+  <div class="intro-aura"></div>
+  <!-- shooting stars in intro -->
+  <div class="i-shoot" style="top:12%;left:-5%;animation-duration:5.5s;animation-delay:0s"></div>
+  <div class="i-shoot" style="top:35%;left:-5%;animation-duration:7s;animation-delay:2.1s"></div>
+  <div class="i-shoot" style="top:65%;left:-5%;animation-duration:6s;animation-delay:4.3s"></div>
+  <!-- intro falling flowers -->
+  <div class="intro-petal" style="left:8%;font-size:1.5rem;animation-duration:8s;animation-delay:0s">🌸</div>
+  <div class="intro-petal" style="left:22%;font-size:1.2rem;animation-duration:10s;animation-delay:1.5s">🌺</div>
+  <div class="intro-petal" style="left:38%;font-size:1.6rem;animation-duration:9s;animation-delay:0.7s">🌷</div>
+  <div class="intro-petal" style="left:55%;font-size:1.3rem;animation-duration:11s;animation-delay:2.2s">🌼</div>
+  <div class="intro-petal" style="left:70%;font-size:1.5rem;animation-duration:8.5s;animation-delay:1s">🌹</div>
+  <div class="intro-petal" style="left:84%;font-size:1.2rem;animation-duration:9.5s;animation-delay:3s">🪷</div>
+  <div class="intro-petal" style="left:93%;font-size:1.4rem;animation-duration:7.5s;animation-delay:0.4s">🌸</div>
+  <div class="intro-inner">
+    <!-- moon with halos and orbiting flowers -->
+    <div class="i-moon-wrap">
+      <div class="i-halo"></div>
+      <div class="i-halo"></div>
+      <div class="i-halo"></div>
+      <span class="i-moon">🌙</span>
+      <span class="i-float-flower" style="--start:0deg;--r:72px;animation-duration:7s;animation-delay:0s">🌸</span>
+      <span class="i-float-flower" style="--start:60deg;--r:72px;animation-duration:8s;animation-delay:.4s">🌺</span>
+      <span class="i-float-flower" style="--start:120deg;--r:72px;animation-duration:9s;animation-delay:.8s">🌹</span>
+      <span class="i-float-flower" style="--start:180deg;--r:72px;animation-duration:7.5s;animation-delay:1.2s">🌷</span>
+      <span class="i-float-flower" style="--start:240deg;--r:72px;animation-duration:8.5s;animation-delay:1.6s">🌼</span>
+      <span class="i-float-flower" style="--start:300deg;--r:72px;animation-duration:6.5s;animation-delay:2s">🪷</span>
+    </div>
+    <div class="i-tag">✨ A love letter from the cosmos ✨</div>
+    <div class="i-eyebrow">
+      <div class="i-eyebrow-line"></div>
+      <div class="i-eyebrow-txt">for you, always</div>
+      <div class="i-eyebrow-line r"></div>
+    </div>
+    <h1 class="i-h1">To My Future Love<em><span class="i-script">— written by Aditya, from Prayagraj, under the stars —</span></em></h1>
+    <div class="i-names">
+      <div class="i-npill a">Aditya 🌙</div>
+      <div class="i-nplus">♡</div>
+      <div class="i-npill y">You ✨</div>
+    </div>
+    <p class="i-p">Somewhere under the same stars I stare at every night, you exist. This entire universe was built for this moment — when we finally find each other.</p>
+    <div class="i-div"></div>
+    <div class="i-stats">
+      <div class="i-stat"><span class="i-stat-val">10²⁴</span><span class="i-stat-lbl">Stars</span></div>
+      <div class="i-stat-sep"></div>
+      <div class="i-stat"><span class="i-stat-val">1</span><span class="i-stat-lbl">Moon</span></div>
+      <div class="i-stat-sep"></div>
+      <div class="i-stat"><span class="i-stat-val">∞</span><span class="i-stat-lbl">Love</span></div>
+    </div>
+    <button class="i-btn" onclick="enterSite()">Open Our Universe ✨</button>
+    <div class="i-flowers">
+      <span style="animation-delay:0s;animation-duration:2.8s">🌸</span>
+      <span style="animation-delay:.2s;animation-duration:3.1s">🌺</span>
+      <span style="animation-delay:.4s;animation-duration:2.6s">🌹</span>
+      <span style="animation-delay:.6s;animation-duration:3.3s">🌷</span>
+      <span style="animation-delay:.8s;animation-duration:2.9s">🌼</span>
+      <span style="animation-delay:1s;animation-duration:3.2s">🪷</span>
+      <span style="animation-delay:1.2s;animation-duration:2.7s">🌻</span>
+    </div>
+    <p class="i-note">Best on a quiet evening with soft music 🎵 — tap anywhere to feel the flowers</p>
+  </div>
+</div>
+
+<!-- ════════ PAGE ════════ -->
+<div class="page" id="page" style="opacity:0;transition:opacity 1.6s ease">
+
+  <!-- HERO -->
+  <div class="hero-section">
+    <div class="hero-orbit-wrap">
+      <div class="o-ring" style="width:145px;height:145px;border:1px solid rgba(232,184,75,.2);animation-duration:9s"><div class="o-dot" style="background:var(--gold);box-shadow:0 0 9px var(--gold)"></div></div>
+      <div class="o-ring" style="width:183px;height:183px;border:1px solid rgba(255,143,171,.14);animation-duration:16s;animation-direction:reverse"><div class="o-dot" style="background:var(--rose);width:6px;height:6px;top:-3px;box-shadow:0 0 9px var(--rose)"></div></div>
+      <div class="o-ring" style="width:222px;height:222px;border:1px solid rgba(155,93,229,.08);animation-duration:24s"><div class="o-dot" style="background:var(--violet2);width:5px;height:5px;top:-2.5px;box-shadow:0 0 7px var(--violet2)"></div></div>
+      <div class="hero-moon-big">🌙</div>
+    </div>
+    <div class="hero-tag">A love built from starlight &amp; imagination</div>
+    <h1 class="hero-title">To <span class="gd">You,</span><br>My Future<br>Everything<span class="sc">— Aditya · Prayagraj, India · Under the Stars · Always —</span></h1>
+    <p class="hero-sub">I don't know your name yet. I don't know the sound of your laugh. But I know my future girlfriend exists somewhere under these same stars — and I'm already grateful.</p>
+    <div class="hero-names">
+      <div class="hn him">Aditya 🌙</div>
+      <div class="hplus">♡</div>
+      <div class="hn her">You ✨</div>
+    </div>
+    <div class="sc-cue"><div class="sc-arr"></div><div class="sc-txt">scroll into our universe</div></div>
+  </div>
+
+  <!-- LETTER -->
+  <div class="gl"></div>
+  <div class="sec reveal">
+    <div class="flabel">✉️ &nbsp; An Open Letter</div>
+    <div class="eye">words from my heart</div>
+    <div class="stitle">Dear Future Love</div>
+    <div class="card" style="margin-top:20px">
+      <span class="l-open">My Dearest,</span>
+      <div class="l-body">
+        <p>I don't know your name. I haven't heard your voice or seen your face. But tonight, staring at the sky from <strong>Prayagraj</strong> — that ancient city where rivers meet and the Milky Way feels close enough to touch — I thought of you.</p>
+        <p>I thought about how the same moon lighting up my window might be the one shining through yours. We are, at this exact moment, sharing the same universe apart. The same stars. The same infinite sky.</p>
+        <p>I built this for my future girlfriend <strong>before we met</strong>. I wanted to prove that love isn't something that just happens. It's something you choose, prepare for, <em>build — carefully, like something precious.</em></p>
+        <p>I am <strong>Aditya</strong>. I love astronomy, the silence of 3 AM, how code can make something beautiful from nothing. I love philosophy, monsoon smell on old stone, questions that have no answers. I'm still figuring out life — but I know this: when I love, I love completely.</p>
+        <p><em>Wherever you are right now — I'm coming. The universe is already conspiring.</em></p>
+      </div>
+      <div class="l-sig">
+        <div class="l-signame">Aditya</div>
+        <div class="l-sigsub">Written under the stars of Prayagraj 🌙</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAP HEART -->
+  <div class="div-ic"><div class="dil"></div><div class="die">💛</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">tap with love</div>
+    <div class="stitle">Send Love Across the Universe</div>
+    <p class="ssub">Every tap you send travels at the speed of light — straight to wherever she is.</p>
+    <div class="heart-section">
+      <div class="heart-wrap" id="heartWrap" onclick="tapHeart()">
+        <div class="h-ring"></div><div class="h-ring"></div><div class="h-ring"></div>
+        <div class="heart-svg-wrap">
+          <svg viewBox="0 0 200 185" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="hg1" cx="38%" cy="30%" r="68%">
+                <stop offset="0%" stop-color="#ffd4a0"/>
+                <stop offset="32%" stop-color="#e8a040"/>
+                <stop offset="68%" stop-color="#c06020"/>
+                <stop offset="100%" stop-color="#802010"/>
+              </radialGradient>
+              <radialGradient id="hg2" cx="50%" cy="50%" r="55%">
+                <stop offset="0%" stop-color="rgba(255,200,120,0.55)"/>
+                <stop offset="100%" stop-color="rgba(255,100,50,0)"/>
+              </radialGradient>
+              <filter id="hglow"><feGaussianBlur stdDeviation="2.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <path d="M100 170 C20 120 10 60 40 35 C60 18 82 22 100 40 C118 22 140 18 160 35 C190 60 180 120 100 170Z" fill="url(#hg2)" transform="scale(1.09) translate(-8,-5)"/>
+            <path d="M100 168 C22 118 12 58 42 34 C62 17 83 21 100 39 C117 21 138 17 158 34 C188 58 178 118 100 168Z" fill="url(#hg1)" filter="url(#hglow)"/>
+            <path d="M65 44 C55 38 46 42 42 50 C38 60 41 74 50 85" stroke="rgba(255,220,160,0.58)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <ellipse cx="80" cy="65" rx="14" ry="9" fill="rgba(255,210,140,0.22)" transform="rotate(-25 80 65)"/>
+            <text x="72" y="106" font-size="18" fill="rgba(255,230,150,0.62)" text-anchor="middle">✦</text>
+            <text x="125" y="90" font-size="12" fill="rgba(255,200,120,0.5)" text-anchor="middle">✦</text>
+            <text x="100" y="136" font-size="10" fill="rgba(255,220,160,0.42)" text-anchor="middle">✦</text>
+          </svg>
+        </div>
+        <div class="h-count" id="hCount">0</div>
+      </div>
+      <div class="h-hint" id="hHint">tap the heart 💛</div>
+      <div class="h-msg" id="hMsg"></div>
+    </div>
+  </div>
+
+  <!-- LOVE LETTER HEART -->
+  <div class="div-ic"><div class="dil"></div><div class="die">💌</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">a secret</div>
+    <div class="stitle">A Letter Hidden in My Heart</div>
+    <p class="ssub">Tap the heart to open a love letter written only for you — my future girlfriend.</p>
+    <div class="lheart-section">
+      <div class="lheart-wrap" id="lheartWrap" onclick="openModal()">
+        <div class="lh-ring"></div><div class="lh-ring"></div><div class="lh-ring"></div>
+        <div class="lheart-svg-wrap">
+          <svg viewBox="0 0 200 185" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="lg1" cx="36%" cy="30%" r="68%">
+                <stop offset="0%" stop-color="#ffb3d0"/>
+                <stop offset="32%" stop-color="#ff5c8a"/>
+                <stop offset="65%" stop-color="#d63384"/>
+                <stop offset="100%" stop-color="#8b0a4e"/>
+              </radialGradient>
+              <radialGradient id="lg2" cx="50%" cy="50%" r="58%">
+                <stop offset="0%" stop-color="rgba(255,150,180,0.6)"/>
+                <stop offset="100%" stop-color="rgba(200,50,120,0)"/>
+              </radialGradient>
+              <filter id="lglow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <path d="M100 170 C20 120 10 60 40 35 C60 18 82 22 100 40 C118 22 140 18 160 35 C190 60 180 120 100 170Z" fill="url(#lg2)" transform="scale(1.1) translate(-9,-6)"/>
+            <path d="M100 168 C22 118 12 58 42 34 C62 17 83 21 100 39 C117 21 138 17 158 34 C188 58 178 118 100 168Z" fill="url(#lg1)" filter="url(#lglow)"/>
+            <path d="M65 44 C55 38 46 42 42 50 C38 60 41 74 50 85" stroke="rgba(255,200,220,0.55)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <ellipse cx="80" cy="65" rx="14" ry="9" fill="rgba(255,180,210,0.22)" transform="rotate(-25 80 65)"/>
+            <!-- envelope icon inside -->
+            <rect x="72" y="88" width="56" height="38" rx="5" fill="rgba(255,255,255,0.18)" stroke="rgba(255,220,230,0.4)" stroke-width="1.5"/>
+            <path d="M72 93 L100 110 L128 93" stroke="rgba(255,220,230,0.5)" stroke-width="1.5" fill="none"/>
+            <text x="100" y="84" font-size="11" fill="rgba(255,220,230,0.5)" text-anchor="middle">✦</text>
+          </svg>
+        </div>
+      </div>
+      <div class="lh-hint">tap to open my letter 💌</div>
+    </div>
+  </div>
+
+  <!-- CONSTELLATION -->
+  <div class="div-ic"><div class="dil"></div><div class="die">✨</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">our sky</div>
+    <div class="stitle">Written in the Stars</div>
+    <div class="card cv-card" style="margin-top:20px">
+      <canvas id="constCanvas" height="195"></canvas>
+      <div class="cv-cap">
+        <div class="cv-cap-title">Our Constellation</div>
+        <div class="cv-cap-text">Every great love story has its own constellation. This one is ours — drawn across the infinite dark, just for us. Find your star, I'll find mine, and together we make something the universe will remember forever.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLACK HOLE -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🕳️</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="kilo-badge">⚫ Live Simulation</div>
+    <div class="eye">gravitational wonder</div>
+    <div class="stitle">A Black Hole for You</div>
+    <div class="card cv-card" style="margin-top:20px">
+      <canvas id="blackholeCanvas" height="260"></canvas>
+      <div class="cv-cap">
+        <div class="cv-cap-title">The Heart of Everything</div>
+        <div class="cv-cap-text">A black hole bends light itself — it warps the fabric of reality. That's what you do to me, my future girlfriend. You bend my entire universe toward you. Everything curves. Everything spirals. Everything leads back to you.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KILONOVA -->
+  <div class="div-ic"><div class="dil"></div><div class="die">💥</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="kilo-badge">✨ Live Kilonova</div>
+    <div class="eye">neutron star collision</div>
+    <div class="stitle">A Kilonova — Born for You</div>
+    <div class="card cv-card" style="margin-top:20px">
+      <canvas id="kilonovaCanvas" height="240"></canvas>
+      <div class="cv-cap">
+        <div class="cv-cap-title">Forged in Starlight</div>
+        <div class="cv-cap-text">When two neutron stars collide, they create a kilonova — the most violent, most luminous explosion in the cosmos. In that cataclysm, all the gold in the universe is born. Every gold ring. Every gold heart. It all came from something like this. The universe makes beautiful things from collisions. So will we.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALAXY -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🌌</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">our milky way</div>
+    <div class="stitle">A Galaxy, Just for Us</div>
+    <div class="card cv-card" style="margin-top:20px">
+      <canvas id="galaxyCanvas" height="235"></canvas>
+      <div class="cv-cap">
+        <div class="cv-cap-title">The Milky Way of Our Love</div>
+        <div class="cv-cap-text">Billions of stars swirling together — none of them random. Two specific coordinates in this galaxy are destined to share the same sky. That's us. Inevitable. Beautiful. Ours.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPACE NUMBERS -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🪐</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">the astronomy of us</div>
+    <div class="stitle">Our Love in Numbers</div>
+    <p class="ssub">The universe is vast — and somehow, it made both of us.</p>
+    <div class="card card-dark">
+      <div class="sfgrid">
+        <div class="sf-item"><span class="sf-icon">🌌</span><span class="sf-val">2 Trillion</span><span class="sf-lbl">Galaxies — all saw us coming</span></div>
+        <div class="sf-item"><span class="sf-icon">⭐</span><span class="sf-val">10²⁴</span><span class="sf-lbl">Stars — all witnessed us</span></div>
+        <div class="sf-item"><span class="sf-icon">🌙</span><span class="sf-val">1</span><span class="sf-lbl">Moon watching over us both</span></div>
+        <div class="sf-item"><span class="sf-icon">💫</span><span class="sf-val">∞</span><span class="sf-lbl">Ways I'll make you smile</span></div>
+        <div class="sf-item"><span class="sf-icon">🌍</span><span class="sf-val">1</span><span class="sf-lbl">Earth where we'll meet</span></div>
+        <div class="sf-item"><span class="sf-icon">❤️</span><span class="sf-val">1</span><span class="sf-lbl">Heart saved only for you</span></div>
+        <div class="sf-item"><span class="sf-icon">🌸</span><span class="sf-val">365</span><span class="sf-lbl">Days/yr I'll choose you</span></div>
+        <div class="sf-item"><span class="sf-icon">🔭</span><span class="sf-val">∞</span><span class="sf-lbl">Lifetimes I'd find you again</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUOTE 1 -->
+  <div class="gl gl-rose"></div>
+  <div class="sec reveal">
+    <div class="card qcard card-dark">
+      <div class="q-mark">"</div>
+      <p class="q-txt">Two people who were made for each other will always find their way across the universe. It may take time. It may take stars. But they'll find each other.</p>
+      <span class="q-attr">— Aditya, staring at the sky at 3 AM</span>
+    </div>
+  </div>
+
+  <!-- STARGAZING -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🌠</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">our favourite thing to do</div>
+    <div class="stitle">Stargazing Together</div>
+    <div class="card cv-card" style="margin-top:20px">
+      <div class="nf-wrap">
+        <canvas id="nightCanvas"></canvas>
+        <div class="nf-figures">
+          <div class="nf-person"><div class="nf-avatar">👦</div><div class="nf-name">Aditya</div></div>
+          <div class="nf-hrt">♡</div>
+          <div class="nf-person"><div class="nf-avatar">👧</div><div class="nf-name">You</div></div>
+        </div>
+      </div>
+      <div class="cv-cap">
+        <div class="cv-cap-title">Under Infinite Stars</div>
+        <div class="cv-cap-text">I'll show you every constellation I know. You'll add poetry to the ones I've only ever seen as patterns. Together we'll invent new ones — just for us. That's the dream I hold onto every single night.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOON PHASE -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🌕</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">celestial witness</div>
+    <div class="stitle">Tonight's Moon — Our Witness</div>
+    <div class="card card-dark" style="margin-top:20px;text-align:center;padding:28px 22px">
+      <canvas id="moonCanvas" width="120" height="120"></canvas>
+      <div class="mph-name" id="moonPhaseName">Calculating...</div>
+      <p class="mph-fact">Every night I look at the moon and think — somewhere, my future girlfriend might be looking at the same one. The moon doesn't choose sides. It lights the sky for both of us equally, as if it already knows we belong together.</p>
+    </div>
+  </div>
+
+  <!-- FLOWERS -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🌸</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">for you</div>
+    <div class="stitle">A Garden From Me</div>
+    <p class="ssub">I'd grow every flower on Earth just to hand you one perfect bloom every single morning.</p>
+    <div class="card" style="margin-top:16px;text-align:center">
+      <div class="fl-row">
+        <span style="animation-delay:0s;animation-duration:2.9s">🌸</span>
+        <span style="animation-delay:.18s;animation-duration:3.2s">🌺</span>
+        <span style="animation-delay:.36s;animation-duration:2.6s">🌻</span>
+        <span style="animation-delay:.54s;animation-duration:3.4s">🌹</span>
+        <span style="animation-delay:.72s;animation-duration:2.8s">🌷</span>
+        <span style="animation-delay:.9s;animation-duration:3.1s">💐</span>
+        <span style="animation-delay:1.08s;animation-duration:3s">🌼</span>
+        <span style="animation-delay:1.26s;animation-duration:3.3s">🪷</span>
+        <span style="animation-delay:1.44s;animation-duration:2.7s">🌸</span>
+      </div>
+      <div style="margin-top:18px">
+        <div class="cv-cap-title" style="color:var(--gold2);margin-bottom:10px">Sakura &amp; Starlight</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:rgba(255,220,180,.88);line-height:1.9">Like cherry blossoms that bloom only for a moment — love reminds us to be present. I want to notice the small beautiful things with you. The way petals fall. The way light bends at golden hour. The way you sigh when you're at peace.</p>
+      </div>
+      <canvas id="sakuraCanvas" style="width:100%;height:132px;margin-top:16px;border-radius:14px;display:block"></canvas>
+    </div>
+  </div>
+
+  <!-- REASONS -->
+  <div class="div-ic"><div class="dil"></div><div class="die">💌</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">already true</div>
+    <div class="stitle">Why I'll Love You</div>
+    <p class="ssub">I haven't met you yet. But I already know these will all be true.</p>
+    <div class="card card-dark">
+      <div class="reasons-list">
+        <div class="r-item"><div class="r-num">01</div><p class="r-txt">Because you'll be brave enough to be yourself, even when the world tells you to be someone else. That kind of courage is rare and beautiful.</p><div class="r-ico">🦋</div></div>
+        <div class="r-item"><div class="r-num">02</div><p class="r-txt">Because you'll have a laugh that makes the whole room feel warmer, and eyes that hold entire stories I'll spend a lifetime wanting to read.</p><div class="r-ico">✨</div></div>
+        <div class="r-item"><div class="r-num">03</div><p class="r-txt">Because even on your hardest days, you keep going. That kind of quiet, stubborn strength is the most beautiful thing I can imagine.</p><div class="r-ico">🌙</div></div>
+        <div class="r-item"><div class="r-num">04</div><p class="r-txt">Because you'll make ordinary moments feel like poetry — a chai, a window, a quiet evening, a shared silence that needs no words.</p><div class="r-ico">☕</div></div>
+        <div class="r-item"><div class="r-num">05</div><p class="r-txt">Because you'll understand that love isn't always grand gestures. Sometimes it's just being there — and you'll show up in all the small ways.</p><div class="r-ico">🌸</div></div>
+        <div class="r-item"><div class="r-num">06</div><p class="r-txt">Because after all this time and all these stars, the universe will have chosen you specifically. And the universe has never, ever been wrong.</p><div class="r-ico">🌌</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAR MAP -->
+  <div class="div-ic"><div class="dil"></div><div class="die">⭐</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">navigating to you</div>
+    <div class="stitle">Navigating By Stars</div>
+    <div class="card cv-card" style="margin-top:20px">
+      <canvas id="starMapCanvas" height="215"></canvas>
+      <div class="cv-cap">
+        <div class="cv-cap-title">The Star Chart of Us</div>
+        <div class="cv-cap-text">Ancient sailors crossed entire oceans by reading the stars. I don't need a map to find you — I just need to follow what feels like light. You are my north star. You always have been, before I even knew it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUOTE 2 -->
+  <div class="gl"></div>
+  <div class="sec reveal">
+    <div class="card qcard card-rose">
+      <div class="q-mark">"</div>
+      <p class="q-txt">The right person isn't someone who completes you. They're someone who stands beside you while you complete yourself — and thinks you're magnificent the whole time.</p>
+      <span class="q-attr">— Aditya, believing in something beautiful</span>
+    </div>
+  </div>
+
+  <!-- PROMISES -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🤝</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">vows before we meet</div>
+    <div class="stitle">My Promises to You</div>
+    <p class="ssub">Written before I knew your name. Meant for your heart alone.</p>
+    <div class="card">
+      <div class="pr-list">
+        <div class="pr-item"><div class="pr-chk">✓</div><p class="pr-txt">I will never make you feel like you are too much. You are not too much — you are exactly, perfectly enough, exactly as you are.</p></div>
+        <div class="pr-item"><div class="pr-chk">✓</div><p class="pr-txt">I will show you the real cosmos — black holes, constellations, the actual Milky Way — because my future girlfriend deserves to feel how vast and beautiful this existence is.</p></div>
+        <div class="pr-item"><div class="pr-chk">✓</div><p class="pr-txt">On your worst days, I will not try to fix you. I'll sit with you in it, quietly, so you never carry anything alone.</p></div>
+        <div class="pr-item"><div class="pr-chk">✓</div><p class="pr-txt">I will grow. I will keep becoming better — not just for you, but partly because of the idea of you, even before we met.</p></div>
+        <div class="pr-item"><div class="pr-chk">✓</div><p class="pr-txt">I will love every version of you — the confident one, the scared one, the silly 3 AM one, the quiet Sunday morning one.</p></div>
+        <div class="pr-item"><div class="pr-chk">✓</div><p class="pr-txt">I will notice the little things — the way you take your tea, the book on your nightstand, the sound you make when you're deep in thought.</p></div>
+        <div class="pr-item"><div class="pr-chk">✓</div><p class="pr-txt">I will never stop choosing you. Love isn't just a feeling — it's a daily decision. And I'll make it gladly, every single day.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🕰️</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">what's coming</div>
+    <div class="stitle">Our Future Story</div>
+    <p class="ssub">I've already imagined a thousand chapters. Here are a few.</p>
+    <div class="card card-dark" style="padding:20px 18px">
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot">🌙</div><div class="tl-con"><div class="tl-ttl">The First Meeting</div><p class="tl-txt">We'll look at each other and think — oh, there you are. It won't feel new. It'll feel like coming home to a place you've always known but never been able to find.</p></div></div>
+        <div class="tl-item"><div class="tl-dot">☕</div><div class="tl-con"><div class="tl-ttl">Our First Real Conversation</div><p class="tl-txt">We'll talk until neither of us notices the time. At some point we'll look up and it'll be 3 AM, and neither of us will want to stop. Not even a little.</p></div></div>
+        <div class="tl-item"><div class="tl-dot">🌸</div><div class="tl-con"><div class="tl-ttl">Falling</div><p class="tl-txt">Slowly. Then all at once. Like the way night falls — you don't notice until suddenly the stars are out and you wonder how you ever lived without them.</p></div></div>
+        <div class="tl-item"><div class="tl-dot">🌌</div><div class="tl-con"><div class="tl-ttl">Stargazing Together</div><p class="tl-txt">I'll point out Orion and Cassiopeia. You'll make them more beautiful by seeing things I couldn't. Together we'll invent new constellations — just for us.</p></div></div>
+        <div class="tl-item"><div class="tl-dot">💍</div><div class="tl-con"><div class="tl-ttl">Forever</div><p class="tl-txt">I'll ask you on a rooftop under the Milky Way. Because some moments need the whole universe as a witness.</p></div></div>
+        <div class="tl-item"><div class="tl-dot">✨</div><div class="tl-con"><div class="tl-ttl">A Life Built Together</div><p class="tl-txt">Adventures and chai and slow Sunday mornings and every ordinary moment made extraordinary — because it's with you.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POEM -->
+  <div class="gl gl-rose"></div>
+  <div class="sec reveal">
+    <div class="eye">written at 3 AM</div>
+    <div class="stitle">A Poem for You</div>
+    <div class="card" style="padding:36px 24px">
+      <div class="poem-body">
+        <p>I don't know your name,</p><p>but the stars do.</p><br>
+        <p>I don't know your face,</p><p>but the moon has seen it —</p><p>silver-lit and thinking</p><p>about something far away.</p><br>
+        <p>I don't know your laugh</p><p>but the flowers lean toward it</p><p>the way they always lean</p><p>toward light.</p><br>
+        <p>I will know you</p><p>when the universe decides</p><p>it is finally time</p><p>to introduce us —</p><br>
+        <p>and when that moment comes,</p><p>I will say:</p>
+        <p><em>I wrote this for you.</em></p><p><em>Before I knew you.</em></p>
+        <p><em>Because I already loved</em></p><p><em>the idea of you.</em></p><br>
+        <p style="color:var(--gold2);font-size:.9rem;letter-spacing:.08em">— Aditya 🌙</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASTRONOMY -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🔭</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">the science of you and me</div>
+    <div class="stitle">We Are Made of Stars</div>
+    <div class="card card-dark" style="text-align:center;padding:36px 22px">
+      <p style="font-family:'Lora',serif;font-size:.74rem;color:var(--td);text-transform:uppercase;letter-spacing:.12em">The universe spent 13.8 billion years making this possible:</p>
+      <div class="astro-big">13.8 Billion</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--td)">years of cosmic history...</p>
+      <div style="margin:20px 0;height:1px;background:linear-gradient(to right,transparent,rgba(232,184,75,.32),transparent)"></div>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.08rem;color:rgba(255,228,190,.92);line-height:1.9">...every supernova, every galaxy collision, every quantum fluctuation — all of it led to <strong style="color:var(--gold2)">you</strong> and <strong style="color:var(--gold2)">me</strong> existing at the same time, on the same planet, breathing the same air. The universe did not do this by accident. It was physics. It was fate. It was love — before we had a name for it.</p>
+      <div style="margin-top:20px;display:flex;justify-content:center;gap:14px;font-size:.82rem;color:var(--td);flex-wrap:wrap">
+        <span>⚛️ Carbon 18.5% of you</span><span>💧 Oxygen 65% of you</span><span>⭐ Stardust 100% of you</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONNECTION -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🌍</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">across distance</div>
+    <div class="stitle">Two Souls, One Universe</div>
+    <div class="card card-dark" style="margin-top:20px">
+      <div class="conn-row">
+        <div class="conn-city"><div class="conn-flag">🇮🇳</div><div class="conn-name">Aditya</div><div class="conn-time" id="indTime">--:--</div><div class="conn-lbl">Prayagraj, India</div></div>
+        <div class="conn-mid"><div class="conn-hrt">♡</div><div class="conn-mid-txt">same stars ✨</div></div>
+        <div class="conn-city"><div class="conn-flag">💫</div><div class="conn-name">You</div><div class="conn-time">∞</div><div class="conn-lbl">Somewhere Beautiful</div></div>
+      </div>
+      <div style="margin-top:18px;text-align:center"><p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.97rem;color:var(--td);line-height:1.85">No distance is too great when two hearts are tuned to the same frequency. The universe is 93 billion light-years wide and love still crosses it.</p></div>
+    </div>
+  </div>
+
+  <!-- WAVE -->
+  <div class="div-ic"><div class="dil"></div><div class="die">🎵</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">soulful frequencies</div>
+    <div class="stitle">Our Frequency</div>
+    <div class="card card-dark" style="text-align:center;padding:28px 22px">
+      <div style="font-size:3rem;animation:hbeat 2s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(232,184,75,.55));margin-bottom:14px;display:inline-block">🎵</div>
+      <div style="font-family:'Cinzel',serif;font-size:1rem;color:#fff;font-weight:600;margin-bottom:4px">The Song I'll Play When You Walk In</div>
+      <div style="font-family:'Great Vibes',cursive;font-size:1.28rem;color:var(--gold2);margin-bottom:16px">Written in the stars, played by the universe</div>
+      <canvas id="waveCanvas" style="width:100%;height:65px;display:block"></canvas>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:var(--td);margin-top:14px;line-height:1.85">There's a song I haven't found yet. When I meet you, I'll hear it and know — this is ours. Until then, these waves carry the feeling across time to wherever you are.</p>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="div-ic"><div class="dil"></div><div class="die">⏳</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">time is on our side</div>
+    <div class="stitle">Until We Meet</div>
+    <div class="card card-dark" style="margin-top:20px">
+      <div class="cd-grid">
+        <div class="cd-item"><span class="cd-val" id="cdY">—</span><span class="cd-lbl">Years</span></div>
+        <div class="cd-item"><span class="cd-val" id="cdD">—</span><span class="cd-lbl">Days</span></div>
+        <div class="cd-item"><span class="cd-val" id="cdH">—</span><span class="cd-lbl">Hours</span></div>
+        <div class="cd-item"><span class="cd-val" id="cdM">—</span><span class="cd-lbl">Minutes</span></div>
+      </div>
+      <p class="cd-note">Counting down to Jan 1, 2028 — the year I'm certain something magical begins. Every second brings us one step closer to our first hello, my future girlfriend.</p>
+    </div>
+  </div>
+
+  <!-- EVERYTHING BEAUTIFUL -->
+  <div class="gl"></div>
+  <div class="sec reveal">
+    <div class="card" style="padding:34px 22px;text-align:center">
+      <div style="font-size:2.2rem;margin-bottom:16px;line-height:1.7">🌙 🌸 🌊 🌿 ⭐ 🦋 🌺 💫 🌻 🌹 🎵 💖</div>
+      <div class="stitle" style="margin-bottom:14px">Everything Beautiful<br>Reminds Me of You</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.06rem;color:rgba(255,222,182,.92);line-height:2">The moon on still water. Cherry blossoms in April wind. The sound of rain on a quiet night. The Milky Way from a dark hillside in Prayagraj. The first sip of something warm on a cold morning. The feeling when a song hits exactly what you couldn't say. — All of it. Every beautiful thing. Before I even know you, it makes me think of you. That's how I know you're real.</p>
+    </div>
+  </div>
+
+  <!-- PHOTO FRAMES -->
+  <div class="div-ic"><div class="dil"></div><div class="die">📸</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="eye">saving a spot</div>
+    <div class="stitle">A Frame I'm Keeping for You</div>
+    <p class="ssub">One day your photo will go here. Until then, I'm holding the space — for you, always.</p>
+    <div class="photo-frames">
+      <div class="pf"><div class="pf-icon">🌙</div><div class="pf-txt">You, under the moon</div></div>
+      <div class="pf"><div class="pf-icon">🌸</div><div class="pf-txt">Us, someday soon</div></div>
+      <div class="pf"><div class="pf-icon">✨</div><div class="pf-txt">Our first adventure</div></div>
+    </div>
+  </div>
+
+  <!-- FINAL LETTER -->
+  <div class="div-ic"><div class="dil"></div><div class="die">💌</div><div class="dil"></div></div>
+  <div class="sec reveal">
+    <div class="card">
+      <span class="l-open">One Last Thing...</span>
+      <div class="l-body">
+        <p>If you've read this far — maybe the universe sent you here for a reason. Maybe this is the beginning of something neither of us fully understands yet.</p>
+        <p>I want you to know: I'm not perfect. I'm Aditya — a teenager from Prayagraj who loves black holes and code and asking impossible questions at 3 AM. I'll make mistakes. But here is what I know for certain:</p>
+        <p>I will never stop <strong>trying</strong>. I will never stop showing up. I will never stop finding new ways to tell you that the universe — all 13.8 billion light-years of it — feels warmer because you're in it.</p>
+        <p><em>Until then, look up at the night sky. I'll be looking too.</em></p>
+      </div>
+      <div class="l-sig">
+        <div class="l-signame">Aditya 🌙</div>
+        <div class="l-sigsub">Prayagraj, India · For You · Always</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="gl" style="margin-top:60px;margin-bottom:0"></div>
+  <div class="footer">
+    <span class="ft-moon">🌙</span>
+    <div class="ft-title">Forever Begins<br>Before We Meet</div>
+    <p class="ft-sub">This website will wait here for you. Somewhere between Prayagraj and wherever you are, the universe is writing our love story. I'm just the first to pick up the pen.</p>
+    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:22px;font-size:1.4rem">🌸 🌙 ✨ 💫 🌺 ⭐ 🦋 💕</div>
+    <div class="ft-sig">— Aditya</div>
+    <div class="ft-date">PRAYAGRAJ · INDIA · UNDER THE STARS · ALWAYS YOURS</div>
+    <div class="ft-em">⭐ ⭐ ⭐ ⭐ ⭐</div>
+  </div>
+
+</div><!-- .page -->
+
+<script>
+// ═══════════════════════════════════════════
+// CURSOR
+// ═══════════════════════════════════════════
+var cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+document.addEventListener('mousemove',function(e){
+  if(cur)cur.style.left=e.clientX+'px',cur.style.top=e.clientY+'px';
+  if(cur2)cur2.style.left=e.clientX+'px',cur2.style.top=e.clientY+'px';
+});
+
+// ═══════════════════════════════════════════
+// FLOWER TRAIL — big, visible, burst on scroll too
+// ═══════════════════════════════════════════
+var trailFlowers=[
+  '🌸','🌺','🌹','🌷','🌼','🪷','🌻','💮','🏵️',
+  '🌸','🌺','🌸','✿','❀','❁','✾','🪻','💐',
+  '🌸','🌹','🌷','🌺','🌸','🌼','🪷','🌸','🌼',
+  '🌸','🌺','🌻','🌹','🌷','🌼','🌸','🪷','💮'
+];
+var lastTX=-999,lastTY=-999,trailTick=0;
+
+function spawnFlower(x,y,isBurst){
+  var el=document.createElement('span');
+  el.className='ftrail'+(isBurst?' burst':'');
+  var flower=trailFlowers[Math.floor(Math.random()*trailFlowers.length)];
+  var sz=(Math.random()*.8+1.4).toFixed(2);
+  var dur=(Math.random()*.3+0.6).toFixed(2);
+  el.textContent=flower;
+  if(isBurst){
+    var angle=Math.random()*Math.PI*2;
+    var d1=Math.random()*35+20,d2=Math.random()*65+40;
+    el.style.setProperty('--bx',Math.round(Math.cos(angle)*d1)+'px');
+    el.style.setProperty('--by',Math.round(Math.sin(angle)*d1)+'px');
+    el.style.setProperty('--bx2',Math.round(Math.cos(angle)*d2)+'px');
+    el.style.setProperty('--by2',Math.round(Math.sin(angle)*d2)+'px');
+    dur=(Math.random()*.25+0.55).toFixed(2);
+  }
+  el.style.cssText+='left:'+x+'px;top:'+y+'px;font-size:'+sz+'rem;animation-duration:'+dur+'s;position:fixed;pointer-events:none;z-index:9990';
+  document.body.appendChild(el);
+  setTimeout(function(){el.parentNode&&el.parentNode.removeChild(el);},1000);
+}
+
+function trailMove(x,y){
+  var now=Date.now();
+  if(now-trailTick<42)return;
+  var dist=Math.sqrt((x-lastTX)*(x-lastTX)+(y-lastTY)*(y-lastTY));
+  if(dist<18)return;
+  trailTick=now;lastTX=x;lastTY=y;
+  var count=Math.random()>.5?2:3;
+  for(var i=0;i<count;i++){
+    var jx=x+(Math.random()-0.5)*18,jy=y+(Math.random()-0.5)*18;
+    (function(jx,jy,i){setTimeout(function(){spawnFlower(jx,jy,false);},i*55);})(jx,jy,i);
+  }
+}
+
+document.addEventListener('mousemove',function(e){trailMove(e.clientX,e.clientY);});
+document.addEventListener('touchmove',function(e){
+  for(var i=0;i<e.touches.length;i++)trailMove(e.touches[i].clientX,e.touches[i].clientY);
+},{passive:true});
+
+var lastScrollY=0,scrollTick=0;
+window.addEventListener('scroll',function(){
+  var now=Date.now();
+  if(now-scrollTick<100)return;
+  scrollTick=now;
+  var dy=Math.abs(window.scrollY-lastScrollY);
+  lastScrollY=window.scrollY;
+  var count=Math.min(8,Math.floor(dy/30)+3);
+  for(var i=0;i<count;i++){
+    (function(i){setTimeout(function(){
+      spawnFlower(Math.random()*window.innerWidth,Math.random()*window.innerHeight,true);
+    },i*60);})(i);
+  }
+},{passive:true});
+
+// ═══════════════════════════════════════════
+// SPARKS
+// ═══════════════════════════════════════════
+var spEmojis=['🌸','🌺','🌹','🌷','🌼','🪷','🌻','💮','✨','💫','🌸','❀','✿','💕','🌸','🌺','⭐','🌙'];
+function makeSparks(x,y){
+  for(var i=0;i<7;i++){
+    (function(i){
+      setTimeout(function(){
+        var s=document.createElement('div');
+        s.className='spark';
+        s.textContent=spEmojis[Math.floor(Math.random()*spEmojis.length)];
+        s.style.cssText='left:'+x+'px;top:'+y+'px;font-size:'+(Math.random()*.6+.65)+'rem;transform:translate(-50%,-50%)';
+        document.body.appendChild(s);
+        setTimeout(function(){s.parentNode&&s.parentNode.removeChild(s);},1000);
+      },i*40);
+    })(i);
+  }
+}
+document.addEventListener('click',function(e){makeSparks(e.clientX,e.clientY);});
+document.addEventListener('touchstart',function(e){
+  for(var i=0;i<e.touches.length;i++)makeSparks(e.touches[i].clientX,e.touches[i].clientY);
+},{passive:true});
+
+// ═══════════════════════════════════════════
+// BACKGROUND SPACE CANVAS
+// ═══════════════════════════════════════════
+var bgCv=document.getElementById('bgCanvas');
+var bgCtx=bgCv.getContext('2d');
+var bgW,bgH,bgStars=[];
+
+function initBG(){
+  bgW=bgCv.width=window.innerWidth;
+  bgH=bgCv.height=window.innerHeight;
+  bgStars=[];
+  var n=Math.min(340,Math.floor(bgW*bgH/3200));
+  for(var i=0;i<n;i++){
+    bgStars.push({x:Math.random()*bgW,y:Math.random()*bgH,
+      r:Math.random()*1.7+.2,op:Math.random()*.82+.1,
+      sp:Math.random()*.016+.004,ph:Math.random()*Math.PI*2,
+      gold:Math.random()>.8});
+  }
+}
+
+function drawBG(){
+  bgCtx.clearRect(0,0,bgW,bgH);
+  var g1=bgCtx.createRadialGradient(bgW*.18,bgH*.12,0,bgW*.18,bgH*.12,bgW*.5);
+  g1.addColorStop(0,'rgba(155,93,229,.045)');g1.addColorStop(1,'transparent');
+  bgCtx.fillStyle=g1;bgCtx.fillRect(0,0,bgW,bgH);
+  var g2=bgCtx.createRadialGradient(bgW*.82,bgH*.78,0,bgW*.82,bgH*.78,bgW*.42);
+  g2.addColorStop(0,'rgba(232,184,75,.032)');g2.addColorStop(1,'transparent');
+  bgCtx.fillStyle=g2;bgCtx.fillRect(0,0,bgW,bgH);
+  
+  for(var i=0;i<bgStars.length;i++){
+    var s=bgStars[i];s.ph+=s.sp;
+    var a=s.op*(.5+.5*Math.sin(s.ph));
+    bgCtx.beginPath();bgCtx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    bgCtx.fillStyle=s.gold?'rgba(255,210,140,'+a+')':'rgba(255,255,255,'+a+')';
+    bgCtx.fill();
+    if(s.r>1.3&&a>.65){
+      bgCtx.beginPath();bgCtx.arc(s.x,s.y,s.r*2.8,0,Math.PI*2);
+      bgCtx.fillStyle=(s.gold?'rgba(255,210,140,':'rgba(255,255,255,')+(a*.1)+')';bgCtx.fill();
+    }
+  }
+  requestAnimationFrame(drawBG);
+}
+initBG();window.addEventListener('resize',initBG);drawBG();
+
+// ═══════════════════════════════════════════
+// INTRO CANVAS
+// ═══════════════════════════════════════════
+var iCv=document.getElementById('introCanvas');
+var iCtx=iCv.getContext('2d'),iStars=[];
+function initIC(){
+  iCv.width=window.innerWidth;iCv.height=window.innerHeight;iStars=[];
+  var n=Math.min(450,Math.floor(iCv.width*iCv.height/2600));
+  for(var i=0;i<n;i++)iStars.push({x:Math.random()*iCv.width,y:Math.random()*iCv.height,
+    r:Math.random()*1.6+.2,op:Math.random()*.9+.1,sp:Math.random()*.022+.005,ph:Math.random()*Math.PI*2});
+}
+function drawIC(){
+  iCtx.clearRect(0,0,iCv.width,iCv.height);
+  for(var i=0;i<iStars.length;i++){
+    var s=iStars[i];s.ph+=s.sp;
+    var a=s.op*(.38+.62*Math.sin(s.ph));
+    iCtx.beginPath();iCtx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    iCtx.fillStyle='rgba(255,255,255,'+a+')';iCtx.fill();
+  }
+  requestAnimationFrame(drawIC);
+}
+initIC();drawIC();
+
+// ═══════════════════════════════════════════
+// ENTER
+// ═══════════════════════════════════════════
+function enterSite(){
+  document.getElementById('intro').classList.add('gone');
+  var page=document.getElementById('page');
+  setTimeout(function(){page.style.opacity='1';},100);
+  startParticles();
+  updateClocks();setInterval(updateClocks,1000);
+  updateCD();setInterval(updateCD,60000);
+}
+
+// ═══════════════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════════════
+var pL=document.getElementById('petalLayer'),fL=document.getElementById('floatLayer');
+var pE=[
+  '🌸','🌺','🌹','🌷','🌼','🪷','🌻','💮','🏵️',
+  '🌸','🌺','🌸','✿','❀','❁','✾','🪻','💐',
+  '🌹','🌷','🌼','🌸','🌺','🪷','🌻','🌸','🌼'
+];
+var hE=['💕','💗','💖','💝','✨','💫','⭐','🌙','🌸','💞','💓','💟','🌺','🌷'];
+function startParticles(){
+  var i;for(i=0;i<18;i++)spP(true);for(i=0;i<12;i++)spH(true);for(i=0;i<32;i++)spD(true);
+  setInterval(function(){spP(false);},1400);setInterval(function(){spH(false);},2300);setInterval(function(){spD(false);},650);
+}
+function spP(init){
+  var p=document.createElement('div');p.className='petal';
+  var dur=Math.random()*11+10,delay=init?Math.random()*dur*-1:0;
+  p.style.cssText='left:'+(Math.random()*100)+'%;font-size:'+(Math.random()*.8+.65)+'rem;animation-duration:'+dur+'s;animation-delay:'+delay+'s';
+  p.textContent=pE[Math.floor(Math.random()*pE.length)];pL.appendChild(p);
+  setTimeout(function(){p.parentNode&&p.parentNode.removeChild(p);},(dur+Math.abs(delay)+1.5)*1000);
+}
+function spH(init){
+  var h=document.createElement('div');h.className='fheart';
+  var dur=Math.random()*6+5,delay=init?Math.random()*dur*-1:0;
+  h.style.cssText='left:'+(Math.random()*88+6)+'%;bottom:'+(Math.random()*15)+'%;font-size:'+(Math.random()*.9+.5)+'rem;animation-duration:'+dur+'s;animation-delay:'+delay+'s';
+  h.textContent=hE[Math.floor(Math.random()*hE.length)];fL.appendChild(h);
+  setTimeout(function(){h.parentNode&&h.parentNode.removeChild(h);},(dur+Math.abs(delay)+1.5)*1000);
+}
+function spD(init){
+  var d=document.createElement('div');d.className='gdust';
+  var dur=Math.random()*13+8,delay=init?Math.random()*dur*-1:0,sz=Math.random()*2.2+.8;
+  d.style.cssText='left:'+(Math.random()*100)+'%;top:-8px;width:'+sz+'px;height:'+sz+'px;--dx:'+((Math.random()-.5)*75)+'px;animation-duration:'+dur+'s;animation-delay:'+delay+'s;background:rgba(232,184,75,.75)';
+  pL.appendChild(d);
+  setTimeout(function(){d.parentNode&&d.parentNode.removeChild(d);},(dur+Math.abs(delay)+1.5)*1000);
+}
+
+// ═══════════════════════════════════════════
+// TAP HEART
+// ═══════════════════════════════════════════
+var tapCount=0;
+var hMsgs=['The universe just felt that 💛','A pulse of love, sent to the cosmos ✨','13.8 billion light-years away, still felt 🌌','She will feel this, wherever she is 🌙','The stars are blushing 🌸','Love, travelling at the speed of light ⭐','The moon saw that 🌕','Our story grows brighter 💫','The cosmos is smiling ✨','Keep going — your future girlfriend is worth it 💕','Every tap writes another line of our story 🌙','The universe counts every heartbeat 💛','Even black holes bend toward this love 🕳️','You and me, written in the stars ⭐'];
+function tapHeart(){
+  tapCount++;
+  var cnt=document.getElementById('hCount');
+  cnt.textContent=tapCount>999?'∞':tapCount;
+  cnt.classList.remove('pop');void cnt.offsetWidth;cnt.classList.add('pop');
+  var hw=document.getElementById('heartWrap');
+  hw.querySelector('.heart-svg-wrap').style.transform='scale(1.14)';
+  setTimeout(function(){hw.querySelector('.heart-svg-wrap').style.transform='';},160);
+  var msg=document.getElementById('hMsg');
+  msg.textContent=hMsgs[tapCount%hMsgs.length];
+  document.getElementById('hHint').style.opacity='0';
+  var rect=hw.getBoundingClientRect();
+  makeSparks(rect.left+rect.width/2,rect.top+rect.height/2);
+}
+
+// ═══════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════
+function openModal(){
+  var mb=document.getElementById('modalBg');
+  mb.style.display='flex';
+  setTimeout(function(){mb.classList.add('open');},10);
+  document.body.style.overflow='hidden';
+  var rect=document.getElementById('lheartWrap').getBoundingClientRect();
+  makeSparks(rect.left+rect.width/2,rect.top+rect.height/2);
+}
+function closeModal(e){
+  if(e.target===document.getElementById('modalBg'))closeModalDirect();
+}
+function closeModalDirect(){
+  var mb=document.getElementById('modalBg');
+  mb.classList.remove('open');
+  setTimeout(function(){mb.style.display='none';},400);
+  document.body.style.overflow='';
+}
+
+// ═══════════════════════════════════════════
+// CLOCKS
+// ═══════════════════════════════════════════
+function updateClocks(){
+  var now=new Date();
+  var ist=new Date(now.getTime()+(now.getTimezoneOffset()*60000)+(5.5*3600000));
+  var el=document.getElementById('indTime');
+  if(el)el.textContent=ist.getHours().toString().padStart(2,'0')+':'+ist.getMinutes().toString().padStart(2,'0');
+}
+
+// ═══════════════════════════════════════════
+// COUNTDOWN
+// ═══════════════════════════════════════════
+function updateCD(){
+  var target=new Date('2028-01-01T00:00:00+05:30'),now=new Date(),diff=target-now;
+  if(diff<=0){['cdY','cdD','cdH','cdM'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent='0';});return;}
+  var y=Math.floor(diff/(365.25*24*3600*1000));
+  var rem=diff%(365.25*24*3600*1000);
+  var d=Math.floor(rem/(24*3600*1000));
+  var h=Math.floor((diff%(24*3600*1000))/(3600*1000));
+  var m=Math.floor((diff%(3600*1000))/60000);
+  ['cdY','cdD','cdH','cdM'].forEach(function(id,i){var e=document.getElementById(id);if(e)e.textContent=[y,d,h,m][i];});
+}
+
+// ═══════════════════════════════════════════
+// CONSTELLATION
+// ═══════════════════════════════════════════
+function initConst(){
+  var cv=document.getElementById('constCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.offsetWidth||320,H=195;
+  cv.width=W;cv.height=H;
+  var nodes=[{x:.16*W,y:.3*H},{x:.28*W,y:.13*H},{x:.43*W,y:.32*H},{x:.53*W,y:.17*H},{x:.65*W,y:.37*H},{x:.75*W,y:.21*H},{x:.86*W,y:.43*H},{x:.12*W,y:.62*H},{x:.27*W,y:.74*H},{x:.47*W,y:.67*H},{x:.62*W,y:.72*H},{x:.79*W,y:.62*H},{x:.91*W,y:.76*H}];
+  var edges=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[7,8],[8,9],[9,10],[10,11],[11,12],[2,9],[4,10],[1,7]];
+  var t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);t+=.007;
+    for(var i=0;i<72;i++){var bx=((i*137.5)%1)*W,by=((i*93.7)%1)*H,a=.12+.2*Math.sin(t*1.8+i*.65);ctx.beginPath();ctx.arc(bx,by,.65,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.fill();}
+    var ng=ctx.createRadialGradient(W*.5,H*.42,0,W*.5,H*.42,W*.45);ng.addColorStop(0,'rgba(155,93,229,.045)');ng.addColorStop(1,'transparent');ctx.fillStyle=ng;ctx.fillRect(0,0,W,H);
+    for(var e=0;e<edges.length;e++){var a2=edges[e][0],b=edges[e][1],na=nodes[a2],nb=nodes[b],pulse=.24+.18*Math.sin(t*1.4+a2*.45);ctx.beginPath();ctx.moveTo(na.x,na.y);ctx.lineTo(nb.x,nb.y);var lg=ctx.createLinearGradient(na.x,na.y,nb.x,nb.y);lg.addColorStop(0,'rgba(232,184,75,'+pulse+')');lg.addColorStop(.5,'rgba(255,143,171,'+(pulse*.65)+')');lg.addColorStop(1,'rgba(155,93,229,'+(pulse*.45)+')');ctx.strokeStyle=lg;ctx.lineWidth=1;ctx.stroke();}
+    for(var n=0;n<nodes.length;n++){var nd=nodes[n],pulse2=.65+.35*Math.sin(t*2.2+n*.75),g=ctx.createRadialGradient(nd.x,nd.y,0,nd.x,nd.y,13);g.addColorStop(0,'rgba(232,184,75,'+(pulse2*.28)+')');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.beginPath();ctx.arc(nd.x,nd.y,13,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(nd.x,nd.y,2.8*pulse2,0,Math.PI*2);ctx.fillStyle='rgba(255,230,178,'+(0.72+.28*pulse2)+')';ctx.fill();}
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════
+// BLACK HOLE (Kerr-Schwarzschild inspired)
+// ═══════════════════════════════════════════
+function initBlackhole(){
+  var cv=document.getElementById('blackholeCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.offsetWidth||320,H=260;
+  cv.width=W;cv.height=H;
+  var cx=W/2,cy=H/2;
+  var particles=[];
+  // Create accretion disk particles
+  for(var i=0;i<300;i++){
+    var angle=Math.random()*Math.PI*2;
+    var r=Math.random()*90+50;
+    var speed=(0.008+0.012*Math.random())*(1+60/(r+1));
+    particles.push({
+      angle:angle,r:r,
+      speed:speed*(Math.random()>.5?1:-1),
+      baseR:r,
+      op:Math.random()*.85+.1,
+      size:Math.random()*2+.5,
+      hue:Math.floor(Math.random()*60+15), // orange to yellow
+      drift:Math.random()*.001-.0005
+    });
+  }
+  // Relativistic jets particles
+  var jets=[];
+  for(var i=0;i<60;i++){
+    jets.push({y:0,speed:Math.random()*3+1.5,x:cx+(Math.random()-.5)*8,op:0,dir:i%2?1:-1,size:Math.random()*2.5+.8});
+  }
+  var t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);t+=.018;
+    // Space bg
+    var sbg=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.65);
+    sbg.addColorStop(0,'rgba(15,0,35,.95)');sbg.addColorStop(.5,'rgba(5,0,18,.97)');sbg.addColorStop(1,'rgba(2,0,8,.99)');
+    ctx.fillStyle=sbg;ctx.fillRect(0,0,W,H);
+    
+    // Photon sphere glow (lensing)
+    for(var ring=4;ring>=1;ring--){
+      var rr=ring*10+32;
+      var rg=ctx.createRadialGradient(cx,cy,rr*.6,cx,cy,rr*1.4);
+      rg.addColorStop(0,'transparent');
+      rg.addColorStop(.5,'rgba(255,200,80,'+(0.03*ring)+')');
+      rg.addColorStop(1,'transparent');
+      ctx.fillStyle=rg;ctx.beginPath();ctx.arc(cx,cy,rr*1.4,0,Math.PI*2);ctx.fill();
+    }
+    
+    // Accretion disk — far side (behind black hole)
+    ctx.save();ctx.scale(1,.38);
+    for(var i=0;i<particles.length;i++){
+      var p=particles[i];
+      if(Math.sin(p.angle)>0)continue; // only far side
+      p.angle+=p.speed;p.r=p.baseR+Math.sin(t*.5+p.angle)*.8;
+      var px=cx+Math.cos(p.angle)*p.r,py=cy/0.38+Math.sin(p.angle)*p.r;
+      var distFrac=1-(p.r-50)/90;
+      var bright=Math.floor(180+distFrac*75),alpha=p.op*(0.5+.5*Math.sin(t*2+i*.12));
+      ctx.beginPath();ctx.arc(px,py,p.size*(1+distFrac*.5),0,Math.PI*2);
+      ctx.fillStyle='hsla('+p.hue+',100%,'+bright+'%,'+alpha+')';ctx.fill();
+    }
+    ctx.restore();
+    
+    // Black hole shadow
+    var bhs=ctx.createRadialGradient(cx,cy,0,cx,cy,42);
+    bhs.addColorStop(0,'rgba(0,0,0,1)');
+    bhs.addColorStop(.88,'rgba(0,0,0,1)');
+    bhs.addColorStop(.96,'rgba(0,0,0,.85)');
+    bhs.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=bhs;ctx.beginPath();ctx.arc(cx,cy,52,0,Math.PI*2);ctx.fill();
+    
+    // Photon ring glow
+    var prg=ctx.createRadialGradient(cx,cy,40,cx,cy,58);
+    prg.addColorStop(0,'transparent');
+    prg.addColorStop(.5,'rgba(255,200,80,.32)');
+    prg.addColorStop(1,'transparent');
+    ctx.fillStyle=prg;ctx.beginPath();ctx.arc(cx,cy,58,0,Math.PI*2);ctx.fill();
+    
+    // Accretion disk — near side (in front)
+    ctx.save();ctx.scale(1,.38);
+    for(var i=0;i<particles.length;i++){
+      var p=particles[i];
+      if(Math.sin(p.angle)<=0)continue;
+      var px=cx+Math.cos(p.angle)*p.r,py=cy/0.38+Math.sin(p.angle)*p.r;
+      var distFrac=1-(p.r-50)/90;
+      var alpha=p.op*(0.6+.4*Math.sin(t*2.5+i*.1));
+      ctx.beginPath();ctx.arc(px,py,p.size*(1+distFrac*.6),0,Math.PI*2);
+      ctx.fillStyle='hsla('+p.hue+',100%,'+(175+distFrac*80)+'%,'+alpha+')';ctx.fill();
+    }
+    ctx.restore();
+    
+    // Relativistic jets
+    for(var i=0;i<jets.length;i++){
+      var j=jets[i];
+      j.y+=j.speed;j.op=Math.min(1,j.y/40)*Math.max(0,1-j.y/120);
+      if(j.y>120){j.y=0;j.x=cx+(Math.random()-.5)*6;j.op=0;}
+      // top jet
+      ctx.beginPath();ctx.arc(j.x,cy-j.y,j.size,0,Math.PI*2);
+      ctx.fillStyle='rgba(155,93,229,'+(j.op*.7)+')';ctx.fill();
+      // bottom jet
+      ctx.beginPath();ctx.arc(j.x,cy+j.y,j.size,0,Math.PI*2);
+      ctx.fillStyle='rgba(0,212,170,'+(j.op*.7)+')';ctx.fill();
+    }
+    
+    // Central event horizon final overlay
+    ctx.beginPath();ctx.arc(cx,cy,40,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,1)';ctx.fill();
+    
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════
+// KILONOVA
+// ═══════════════════════════════════════════
+function initKilonova(){
+  var cv=document.getElementById('kilonovaCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.offsetWidth||320,H=240;
+  cv.width=W;cv.height=H;
+  var cx=W/2,cy=H/2;
+  
+  // Two neutron stars
+  var ns1={x:cx-60,y:cy,vx:0,vy:-0.4,r:8,merged:false};
+  var ns2={x:cx+60,y:cy,vx:0,vy:0.4,r:8,merged:false};
+  var phase=0; // 0=orbit, 1=merge, 2=explosion
+  var mergeT=0,explodeT=0;
+  var ejectaParticles=[];
+  var bgParticles=[];
+  for(var i=0;i<80;i++)bgParticles.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,op:Math.random()*.6+.1,ph:Math.random()*Math.PI*2,sp:Math.random()*.016+.004});
+  
+  var orbitAngle=0;
+  var orbitR=55;
+  var t=0;
+  
+  function draw(){
+    ctx.clearRect(0,0,W,H);t+=.012;
+    
+    // Space bg
+    var sbg=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.7);
+    sbg.addColorStop(0,'rgba(20,0,60,.95)');sbg.addColorStop(1,'rgba(2,0,12,.99)');
+    ctx.fillStyle=sbg;ctx.fillRect(0,0,W,H);
+    
+    // bg stars
+    for(var i=0;i<bgParticles.length;i++){var p=bgParticles[i];p.ph+=p.sp;var a=p.op*(.4+.6*Math.sin(p.ph));ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.fill();}
+    
+    if(phase===0){
+      // Orbit getting closer
+      orbitAngle+=.028+t*.0002;
+      orbitR=Math.max(16,55-t*1.2);
+      ns1.x=cx+Math.cos(orbitAngle)*orbitR;
+      ns1.y=cy+Math.sin(orbitAngle)*orbitR*.5;
+      ns2.x=cx+Math.cos(orbitAngle+Math.PI)*orbitR;
+      ns2.y=cy+Math.sin(orbitAngle+Math.PI)*orbitR*.5;
+      
+      // Draw gravitational wave rings
+      for(var ring=0;ring<4;ring++){
+        var rr=((t*40+ring*25)%120)+20;
+        var ra=Math.max(0,0.18-rr/140);
+        ctx.beginPath();ctx.ellipse(cx,cy,rr,rr*.5,0,0,Math.PI*2);
+        ctx.strokeStyle='rgba(155,93,229,'+ra+')';ctx.lineWidth=1;ctx.stroke();
+      }
+      
+      // Draw neutron stars
+      [ns1,ns2].forEach(function(ns,idx){
+        var g=ctx.createRadialGradient(ns.x,ns.y,0,ns.x,ns.y,ns.r*2);
+        g.addColorStop(0,idx?'rgba(100,200,255,1)':'rgba(180,140,255,1)');
+        g.addColorStop(.5,idx?'rgba(50,150,255,.7)':'rgba(140,80,255,.7)');
+        g.addColorStop(1,'transparent');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(ns.x,ns.y,ns.r*2,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(ns.x,ns.y,ns.r,0,Math.PI*2);
+        ctx.fillStyle=idx?'rgba(180,230,255,1)':'rgba(220,180,255,1)';ctx.fill();
+      });
+      
+      if(orbitR<=16){phase=1;mergeT=0;}
+    }
+    
+    if(phase===1){
+      mergeT+=.06;
+      // Merge flash
+      var flashA=Math.sin(mergeT*Math.PI);
+      var mg=ctx.createRadialGradient(cx,cy,0,cx,cy,80);
+      mg.addColorStop(0,'rgba(255,255,255,'+flashA+')');
+      mg.addColorStop(.3,'rgba(255,220,100,'+(flashA*.8)+')');
+      mg.addColorStop(.7,'rgba(155,93,229,'+(flashA*.4)+')');
+      mg.addColorStop(1,'transparent');
+      ctx.fillStyle=mg;ctx.fillRect(0,0,W,H);
+      if(mergeT>=1){
+        phase=2;explodeT=0;
+        // Create ejecta
+        for(var i=0;i<200;i++){
+          var angle=Math.random()*Math.PI*2;
+          var spd=Math.random()*4+1;
+          ejectaParticles.push({x:cx,y:cy,vx:Math.cos(angle)*spd,vy:Math.sin(angle)*spd*.6,
+            r:Math.random()*3+.8,op:1,hue:Math.floor(Math.random()*80+20),size:Math.random()*2+.5,
+            decay:Math.random()*.015+.008});
+        }
+      }
+    }
+    
+    if(phase===2){
+      explodeT+=.01;
+      // Central remnant glow
+      var cg=ctx.createRadialGradient(cx,cy,0,cx,cy,60+explodeT*20);
+      cg.addColorStop(0,'rgba(255,255,200,'+(Math.max(0,.9-explodeT*.4))+')');
+      cg.addColorStop(.3,'rgba(255,180,50,'+(Math.max(0,.5-explodeT*.2))+')');
+      cg.addColorStop(.7,'rgba(155,93,229,'+(Math.max(0,.25-explodeT*.1))+')');
+      cg.addColorStop(1,'transparent');
+      ctx.fillStyle=cg;ctx.fillRect(0,0,W,H);
+      
+      // Ejecta
+      for(var i=ejectaParticles.length-1;i>=0;i--){
+        var p=ejectaParticles[i];
+        p.x+=p.vx;p.y+=p.vy;p.op-=p.decay;p.r+=.02;
+        if(p.op<=0){ejectaParticles.splice(i,1);continue;}
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='hsla('+p.hue+',100%,80%,'+p.op+')';ctx.fill();
+        // trail
+        ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*3,p.y-p.vy*3);
+        ctx.strokeStyle='hsla('+p.hue+',100%,85%,'+(p.op*.4)+')';ctx.lineWidth=p.r*.5;ctx.stroke();
+      }
+      
+      // Shock wave
+      var swR=explodeT*180;
+      ctx.beginPath();ctx.arc(cx,cy,swR,0,Math.PI*2);
+      ctx.strokeStyle='rgba(232,184,75,'+(Math.max(0,.4-explodeT*.35))+')';ctx.lineWidth=2;ctx.stroke();
+      
+      // Reset when done
+      if(explodeT>14&&ejectaParticles.length===0){
+        phase=0;t=0;orbitAngle=0;orbitR=55;ejectaParticles=[];
+      }
+    }
+    
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════
+// GALAXY
+// ═══════════════════════════════════════════
+function initGalaxy(){
+  var cv=document.getElementById('galaxyCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.offsetWidth||320,H=235;
+  cv.width=W;cv.height=H;
+  var ps=[],n=Math.min(500,Math.floor(W*H/480));
+  for(var i=0;i<n;i++){var arm=i%3,tt=Math.random()*4.2*Math.PI,r=(Math.random()*.84+.025)*(Math.min(W,H)*.42),sp=(Math.random()-.5)*.55,ang=tt/3+arm*(2*Math.PI/3)+sp;ps.push({ax:W/2,ay:H/2,dist:r,ang:ang,speed:(.003+.002*Math.random())*(1+Math.random()),r:Math.random()*1.4+.2,op:Math.random()*.8+.1,gold:Math.random()>.62});}
+  var t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);t+=.006;
+    var core=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,58);core.addColorStop(0,'rgba(232,184,75,.4)');core.addColorStop(.4,'rgba(200,150,50,.1)');core.addColorStop(1,'transparent');ctx.fillStyle=core;ctx.beginPath();ctx.ellipse(W/2,H/2,58,26,0,0,Math.PI*2);ctx.fill();
+    for(var i=0;i<ps.length;i++){var p=ps[i];p.ang+=p.speed*(.55+.45/(p.dist/(Math.min(W,H)*.012)+1));var px=p.ax+p.dist*Math.cos(p.ang),py=p.ay+p.dist*Math.sin(p.ang)*.44;var a=p.op*(.48+.52*Math.sin(t*1.8+p.ang));ctx.beginPath();ctx.arc(px,py,p.r,0,Math.PI*2);ctx.fillStyle=p.gold?'rgba(232,184,75,'+a+')':'rgba(255,255,255,'+a+')';ctx.fill();}
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════
+// NIGHT SKY
+// ═══════════════════════════════════════════
+function initNight(){
+  var cv=document.getElementById('nightCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.offsetWidth||320,H=210;
+  cv.width=W;cv.height=H;
+  var ns=[];for(var i=0;i<100;i++)ns.push({x:Math.random()*W,y:Math.random()*H*.88,r:Math.random()*1.4+.2,op:Math.random()*.7+.2,ph:Math.random()*Math.PI*2,sp:Math.random()*.018+.004});
+  var t=0,sT=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);t+=.007;
+    var sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'rgba(5,0,25,1)');sky.addColorStop(.6,'rgba(15,0,50,.95)');sky.addColorStop(1,'rgba(35,0,80,.8)');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+    var nb=ctx.createRadialGradient(W*.5,H*.3,0,W*.5,H*.3,W*.4);nb.addColorStop(0,'rgba(155,93,229,.06)');nb.addColorStop(1,'transparent');ctx.fillStyle=nb;ctx.fillRect(0,0,W,H);
+    for(var i=0;i<ns.length;i++){var s=ns[i];s.ph+=s.sp;var a=s.op*(.4+.6*Math.sin(s.ph));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.fill();}
+    sT+=.005;var fr=sT%1;if(fr<.38){var al=fr<.04?fr/.04:fr>.32?1-(fr-.32)/.06:1;ctx.beginPath();ctx.moveTo(fr*W*1.2-W*.1,H*.05+fr*H*.25);ctx.lineTo(fr*W*1.2-W*.1-55,H*.05+fr*H*.25-20);var sg=ctx.createLinearGradient(fr*W*1.2-W*.1,0,fr*W*1.2-W*.1-55,0);sg.addColorStop(0,'rgba(255,255,255,0)');sg.addColorStop(1,'rgba(232,184,75,'+(al*.85)+')');ctx.strokeStyle=sg;ctx.lineWidth=1.8;ctx.stroke();}
+    var hz=ctx.createLinearGradient(0,H*.72,0,H);hz.addColorStop(0,'transparent');hz.addColorStop(1,'rgba(232,100,180,.08)');ctx.fillStyle=hz;ctx.fillRect(0,H*.72,W,H*.28);
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════
+// STAR MAP
+// ═══════════════════════════════════════════
+function initStarMap(){
+  var cv=document.getElementById('starMapCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.offsetWidth||320,H=215;
+  cv.width=W;cv.height=H;
+  var consts=[{name:'Orion',s:[{x:.2,y:.32},{x:.28,y:.2},{x:.35,y:.28},{x:.3,y:.5},{x:.38,y:.62},{x:.22,y:.64}],e:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[2,5]]},{name:'Ursa',s:[{x:.6,y:.2},{x:.68,y:.26},{x:.75,y:.2},{x:.82,y:.28},{x:.88,y:.36},{x:.82,y:.45},{x:.75,y:.4}],e:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,2]]},{name:'Lyra',s:[{x:.5,y:.68},{x:.58,y:.6},{x:.65,y:.67},{x:.72,y:.58},{x:.8,y:.65}],e:[[0,1],[1,2],[2,3],[3,4]]}];
+  var bgs=[];for(var i=0;i<110;i++)bgs.push({x:Math.random(),y:Math.random(),r:Math.random()*1.2+.2,op:Math.random()*.6+.1,ph:Math.random()*Math.PI*2,sp:Math.random()*.018+.004});
+  var t=0,sT=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);t+=.007;
+    var sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'rgba(2,0,12,.96)');sky.addColorStop(1,'rgba(8,0,28,.92)');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+    for(var i=0;i<bgs.length;i++){var s=bgs[i];s.ph+=s.sp;var a=s.op*(.4+.6*Math.sin(s.ph));ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.fill();}
+    for(var ci=0;ci<consts.length;ci++){var c=consts[ci];for(var ei=0;ei<c.e.length;ei++){var sa=c.s[c.e[ei][0]],sb=c.s[c.e[ei][1]];ctx.beginPath();ctx.moveTo(sa.x*W,sa.y*H);ctx.lineTo(sb.x*W,sb.y*H);ctx.strokeStyle='rgba(232,184,75,.17)';ctx.lineWidth=1;ctx.stroke();}for(var si=0;si<c.s.length;si++){var ns=c.s[si],pulse=.68+.32*Math.sin(t*1.9+si*.85);var g=ctx.createRadialGradient(ns.x*W,ns.y*H,0,ns.x*W,ns.y*H,10);g.addColorStop(0,'rgba(232,184,75,'+(pulse*.28)+')');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.beginPath();ctx.arc(ns.x*W,ns.y*H,10,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(ns.x*W,ns.y*H,2.6*pulse,0,Math.PI*2);ctx.fillStyle='rgba(255,228,175,'+(0.82+.18*pulse)+')';ctx.fill();}ctx.fillStyle='rgba(232,184,75,.32)';ctx.font='10px Cinzel,serif';ctx.fillText(c.name,c.s[0].x*W+6,c.s[0].y*H-7);}
+    sT+=.004;var fr=sT%1;if(fr<.4){var al=fr<.05?fr/.05:fr>.35?1-(fr-.35)/.05:1;ctx.beginPath();ctx.moveTo(fr*W*.75+W*.1,(1-fr)*.38*H);ctx.lineTo(fr*W*.75+W*.1-58,(1-fr)*.38*H+22);var sg=ctx.createLinearGradient(fr*W*.75+W*.1,0,fr*W*.75+W*.1-58,0);sg.addColorStop(0,'rgba(255,255,255,0)');sg.addColorStop(1,'rgba(232,184,75,'+(al*.82)+')');ctx.strokeStyle=sg;ctx.lineWidth=1.8;ctx.stroke();}
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════
+// MOON PHASE
+// ═══════════════════════════════════════════
+function initMoon(){
+  var cv=document.getElementById('moonCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var now=new Date(),synodic=29.53058867,known=new Date('2000-01-06'),diff=(now-known)/86400000,phase=(diff%synodic)/synodic;
+  var names=['New Moon','Waxing Crescent','First Quarter','Waxing Gibbous','Full Moon','Waning Gibbous','Last Quarter','Waning Crescent'];
+  var el=document.getElementById('moonPhaseName');if(el)el.textContent=names[Math.round(phase*8)%8];
+  var cx=60,cy=60,r=48;
+  var glow=ctx.createRadialGradient(cx,cy,0,cx,cy,r*1.85);glow.addColorStop(0,'rgba(232,184,75,.32)');glow.addColorStop(1,'transparent');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(cx,cy,r*1.85,0,Math.PI*2);ctx.fill();
+  var mg=ctx.createRadialGradient(cx-11,cy-11,0,cx,cy,r);mg.addColorStop(0,'rgba(255,240,195,.98)');mg.addColorStop(.6,'rgba(232,184,75,.95)');mg.addColorStop(1,'rgba(180,130,40,.9)');ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=mg;ctx.fill();
+  ctx.save();ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.clip();if(phase>.02&&phase<.98){var sx=phase<.5?cx+(r*2*(1-phase*2)):cx-(r*2*(phase*2-1));ctx.beginPath();ctx.arc(sx,cy,r*1.1,0,Math.PI*2);ctx.fillStyle='rgba(3,0,15,.93)';ctx.fill();}else if(phase<=.02){ctx.fillStyle='rgba(3,0,15,.93)';ctx.fillRect(0,0,120,120);}ctx.restore();
+  [[34,42,3.8],[68,54,5.5],[48,68,2.8],[80,38,3.5],[56,36,2.2]].forEach(function(c){ctx.beginPath();ctx.arc(c[0],c[1],c[2],0,Math.PI*2);ctx.fillStyle='rgba(175,125,38,.22)';ctx.fill();});
+}
+
+// ═══════════════════════════════════════════
+// SAKURA
+// ═══════════════════════════════════════════
+function initSakura(){
+  var cv=document.getElementById('sakuraCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.offsetWidth||320,H=132;
+  cv.width=W;cv.height=H;
+  var ps=[];for(var i=0;i<38;i++)ps.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.55,vy:Math.random()*.75+.28,r:Math.random()*5+2.5,rot:Math.random()*Math.PI*2,vrot:Math.random()*.04-.02,op:Math.random()*.68+.2,g:Math.floor(Math.random()*55+165),b:Math.floor(Math.random()*55+185)});
+  function draw(){
+    ctx.fillStyle='rgba(8,0,28,.55)';ctx.fillRect(0,0,W,H);
+    var sky=ctx.createLinearGradient(0,0,W,H);sky.addColorStop(0,'rgba(14,0,48,.28)');sky.addColorStop(1,'rgba(50,0,30,.18)');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+    for(var i=0;i<ps.length;i++){var p=ps[i];p.x+=p.vx;p.y+=p.vy;p.rot+=p.vrot;if(p.y>H+15)p.y=-12,p.x=Math.random()*W;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);for(var j=0;j<5;j++){var a=j*Math.PI*2/5;ctx.beginPath();ctx.ellipse(Math.cos(a)*p.r*.38,Math.sin(a)*p.r*.38,p.r,p.r*.48,a,0,Math.PI*2);ctx.fillStyle='rgba(255,'+p.g+','+p.b+','+p.op+')';ctx.fill();}ctx.restore();}
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════
+// WAVE
+// ═══════════════════════════════════════════
+function initWave(){
+  var cv=document.getElementById('waveCanvas');if(!cv)return;
+  var ctx=cv.getContext('2d'),W=cv.offsetWidth||320,H=65;
+  cv.width=W;cv.height=H;
+  var t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);t+=.038;
+    var layers=[{amp:9,freq:.024,spd:t,color:'rgba(232,184,75,.44)',lw:2},{amp:6,freq:.032,spd:-t*.9+1.2,color:'rgba(255,143,171,.28)',lw:1.6},{amp:4,freq:.048,spd:t*1.3-2,color:'rgba(155,93,229,.22)',lw:1.2}];
+    for(var li=0;li<layers.length;li++){var l=layers[li];ctx.beginPath();ctx.moveTo(0,H/2);for(var x=0;x<=W;x+=2){ctx.lineTo(x,H/2+l.amp*Math.sin(x*l.freq+l.spd)+l.amp*.5*Math.sin(x*l.freq*1.8-l.spd*.8));}ctx.strokeStyle=l.color;ctx.lineWidth=l.lw;ctx.stroke();}
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════
+function initReveal(){
+  var els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+    els.forEach(function(el){obs.observe(el);});
+  }else{els.forEach(function(el){el.classList.add('visible');});}
+}
+
+// ═══════════════════════════════════════════
+// INIT ALL
+// ═══════════════════════════════════════════
+window.addEventListener('load',function(){
+  initReveal();
+  initConst();
+  initBlackhole();
+  initKilonova();
+  initGalaxy();
+  initNight();
+  initStarMap();
+  initMoon();
+  initSakura();
+  initWave();
+});
+</script>
+</body>
+</html>
